@@ -1,33 +1,43 @@
-import React from "react";
+import React, {useState} from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
 
 function RegisterPage() {
-    const navigate = useNavigate();
-    function handleSubmit(event) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    async function handleSubmit(event) {
         event.preventDefault();
 
-        const formData = new FormData(event.target);
-        const data = {
-            email: formData.get('email'),
-            password: formData.get('password'),
-        };
-
-        axios.post('/api/register', data)
-            .then(() => {
-                navigate('/');
-            });
+        try {
+            const response = await axios.post("/api/register", { email, password });
+            console.log(response)
+        } catch (error) {
+            console.error("Erreur de connexion :", error.response?.data || error.message);
+        }
     }
 
+
     return (
-        <div>
-            <h1>Inscription</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email: </label>
-                <input type="email" name="email" id="email" required />
-                <label htmlFor="password">Mot de passe: </label>
-                <input type="password" name="password" id="password" required />
-                <input type="submit" value="S'inscrire" />
+        <div className="content-container">
+            <form onSubmit={handleSubmit} className="form">
+                <div className="form-title">
+                    <h2>Inscription</h2>
+                    <hr/>
+                </div>
+                <div>
+                    <label>Email :</label>
+                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+                </div>
+
+                <div>
+                    <label>Mot de passe :</label>
+                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                </div>
+
+                <div className="buttons-container">
+                    <button type="submit" className="button-main">S'inscrire</button>
+                    <a href="/login">Déjà inscrit?</a>
+                </div>
             </form>
         </div>
     );

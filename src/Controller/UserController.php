@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserController extends AbstractController
 {
@@ -82,5 +84,18 @@ final class UserController extends AbstractController
         $entityManager->flush();
 
         return new Response(json_encode(['message' => 'User created successfully']), 201, ['Content-Type' => 'application/json']);
+    }
+
+    #[Route('/api/me', name: 'api_me', methods: ['GET'])]
+    public function me(UserInterface $user = null): JsonResponse
+    {
+        if (!$user) {
+            return $this->json(['message' => 'Unauthorized'], 401);
+        }
+
+        return $this->json([
+            'email' => $user->getUserIdentifier(),
+            'roles' => $user->getRoles()
+        ]);
     }
 }

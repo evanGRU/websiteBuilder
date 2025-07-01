@@ -1,36 +1,49 @@
-import React from "react";
+import React, {useState} from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import './loginPage.scss';
+import {useAuth} from "../../services/auth/AuthContext";
 
 function LoginPage() {
-    const navigate = useNavigate();
-    function handleSubmit(event) {
+    const { login } = useAuth();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    async function handleSubmit(event) {
         event.preventDefault();
 
-        const formData = new FormData(event.target);
-        const data = {
-            email: formData.get('email'),
-            password: formData.get('password'),
-        };
-
-        axios.post('/api/login', data)
-            .then(() => {
-                navigate('/');
-            });
+        try {
+            const response = await axios.post("/api/login", { email, password });
+            const token = response.data.token;
+            login(token);
+        } catch (error) {
+            console.error("Erreur de connexion :", error.response?.data || error.message);
+        }
     }
 
     return (
-        <div>
-            <h1>Connexion</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email: </label>
-                <input type="email" name="email" id="email" required />
-                <label htmlFor="password">Mot de passe: </label>
-                <input type="password" name="password" id="password" required />
-                <input type="submit" value="Se connecter" />
+        <div className="content-container">
+            <form onSubmit={handleSubmit} className="form">
+                <div className="form-title">
+                    <h2>Connexion</h2>
+                    <hr/>
+                </div>
+                <div>
+                    <label>Email :</label>
+                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+                </div>
+
+                <div>
+                    <label>Mot de passe :</label>
+                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                </div>
+
+                <div className="buttons-container">
+                    <button type="submit" className="button-main">Se connecter</button>
+                    <a href="/register">Pas encore inscrit?</a>
+                </div>
             </form>
         </div>
-    );
+    )
 }
 
 export default LoginPage;
