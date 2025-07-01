@@ -66,4 +66,22 @@ Encore
     .enableReactPreset()
 ;
 
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
+
+config.devServer = {
+    static: {
+        directory: './public',
+    },
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+    },
+    allowedHosts: 'all',
+    port: 8080,
+    hot: true,
+    liveReload: true,
+    client: {
+        overlay: false,
+    },
+};
+
+module.exports = config;
