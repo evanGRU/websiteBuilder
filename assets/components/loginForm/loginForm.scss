@@ -1,0 +1,79 @@
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .auth-form-input-container {
+        display: flex;
+        flex-direction: column;
+
+        .auth-label {
+            color: var(--text-main);
+            font-size: 16px;
+        }
+
+        .auth-input {
+            width: 100%;
+            height: 40px;
+            padding: 1em;
+            border: 1px solid var(--main);
+        }
+
+        .password-input-container{
+            position: relative;
+
+            .toggle-password-button {
+                position: absolute;
+                background-color: transparent;
+                border: none;
+                right: 10px;
+                top: 10px;
+
+                svg {
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    .auth-button-container {
+        margin-top: 0.5em;
+
+        .auth-button {
+            width: 100%;
+            height: 40px;
+            font-size: 16px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-external-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+            margin-top: 2em;
+
+            a {
+                text-decoration: none;
+                width: 100%;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 0 22%;
+                gap: 0.5em;
+
+                svg {
+                    width: 25px;
+                    height: 25px;
+                }
+            }
+        }
+    }
+}

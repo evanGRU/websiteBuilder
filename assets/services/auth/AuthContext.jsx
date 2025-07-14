@@ -1,15 +1,18 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import axios from "axios";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
+    const user = localStorage.getItem("user");
     const navigate = useNavigate();
+    const location = useLocation();
 
     const token = localStorage.getItem("token");
+    const isLoginPage = location.pathname === "/login";
+    const isRegisterPage = location.pathname === "/register";
 
     function isTokenValid(token) {
         try {
@@ -22,7 +25,6 @@ export function AuthProvider({ children }) {
 
     async function validateToken(token) {
         if (!token || !isTokenValid(token)) {
-            console.log('valid');
             logout();
             return;
         }
@@ -34,7 +36,7 @@ export function AuthProvider({ children }) {
                 },
             });
 
-            setUser(response.data.email);
+            localStorage.setItem('user', response.data.email);
         } catch (error) {
             logout();
         }
@@ -42,24 +44,32 @@ export function AuthProvider({ children }) {
 
     function login(token) {
         localStorage.setItem("token", token);
-        validateToken(token);
+        // validateToken(token); ???????????
         navigate('/');
     }
 
     function logout() {
         localStorage.removeItem("token");
-        setUser(null);
+        localStorage.setItem('user', '');
         navigate("/login");
     }
 
     useEffect(() => {
-        if (location.pathname !== '/register'){
-            validateToken(token);
-        }
+        // if (isRegisterPage){
+        //     validateToken(token);
+        // }
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user, navigate }}>
+        <AuthContext.Provider value={{
+            user,
+            login,
+            logout,
+            isAuthenticated: !!user,
+            navigate,
+            isLoginPage,
+            isRegisterPage
+        }}>
             {children}
         </AuthContext.Provider>
     );

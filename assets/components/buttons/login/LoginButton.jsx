@@ -9,7 +9,7 @@ export default function LoginButton() {
     return (
         <div
             className="login-button-container"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/auth')}
         >
             <p className="poppins-medium">Se connecter</p>
         </div>
