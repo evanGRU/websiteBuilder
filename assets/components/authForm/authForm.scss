@@ -3,6 +3,13 @@
     flex-direction: column;
     gap: 0.5em;
 
+    .auth-form-double-input-container {
+        display: flex;
+        gap: 1em;
+        align-items: center;
+        justify-content: center;
+    }
+
     .auth-form-input-container {
         display: flex;
         flex-direction: column;

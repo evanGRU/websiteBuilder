@@ -11,8 +11,7 @@ export function AuthProvider({ children }) {
     const location = useLocation();
 
     const token = localStorage.getItem("token");
-    const isLoginPage = location.pathname === "/login";
-    const isRegisterPage = location.pathname === "/register";
+    const isAuthPage = location.pathname === "/auth";
 
     function isTokenValid(token) {
         try {
@@ -67,8 +66,7 @@ export function AuthProvider({ children }) {
             logout,
             isAuthenticated: !!user,
             navigate,
-            isLoginPage,
-            isRegisterPage
+            isAuthPage
         }}>
             {children}
         </AuthContext.Provider>

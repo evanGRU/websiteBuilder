@@ -7,7 +7,7 @@ import {useAuth} from "../../services/auth/AuthContext";
 
 
 export default function Navbar() {
-    const { isLoginPage, isRegisterPage } = useAuth();
+    const { isAuthPage } = useAuth();
 
     return (
         <div className="navbar-container">
@@ -20,7 +20,7 @@ export default function Navbar() {
                 <p className="poppins-extralight">Constructeur de site web.</p>
             </div>
             <div className="navbar-buttons-container">
-                {(!isLoginPage && !isRegisterPage) && <LoginButton/>}
+                {!isAuthPage && <LoginButton/>}
                 <ThemeButton/>
             </div>
         </div>

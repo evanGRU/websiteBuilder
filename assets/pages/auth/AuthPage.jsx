@@ -4,12 +4,10 @@ import BackgroundImg from "../../images/bg-temp.jpg";
 import {LeftArrowIcon, RightArrowIcon} from "../../services/svg";
 import Navbar from "../../components/navbar/Navbar";
 import {authMethod} from "../../services/params";
-import LoginForm from "../../components/loginForm/LoginForm";
-import RegisterForm from "../../components/registerForm/RegisterForm";
-
+import AuthForm from "../../components/authForm/AuthForm";
 
 function AuthPage() {
-    const [selectedAuthMethod, setSelectedAUthMethod] = useState(authMethod.login);
+    const [currentAuthMethod, setCurrentAuthMethod] = useState(authMethod.login);
 
     return (
         <>
@@ -30,15 +28,15 @@ function AuthPage() {
                 <div className="auth-right-part-container">
                     <div className="form-nav">
                         <div
-                            className={`form-nav-button ${selectedAuthMethod === authMethod.login && "form-nav-button-selected"}`}
-                            onClick={() => setSelectedAUthMethod(authMethod.login)}
+                            className={`form-nav-button ${currentAuthMethod === authMethod.login && "form-nav-button-selected"}`}
+                            onClick={() => setCurrentAuthMethod(authMethod.login)}
                         >
                             <p>/Connexion</p>
                         </div>
 
                         <div
-                            className={`form-nav-button ${selectedAuthMethod === authMethod.register && "form-nav-button-selected"}`}
-                            onClick={() => setSelectedAUthMethod(authMethod.register)}
+                            className={`form-nav-button ${currentAuthMethod === authMethod.register && "form-nav-button-selected"}`}
+                            onClick={() => setCurrentAuthMethod(authMethod.register)}
                         >
                             <p>/Inscription</p>
                         </div>
@@ -47,9 +45,9 @@ function AuthPage() {
                     </div>
 
                     <div className="auth-form-container">
-                        {
-                            selectedAuthMethod === authMethod.login ? <LoginForm/> : <RegisterForm/>
-                        }
+                        <AuthForm
+                            currentAuthMethod={currentAuthMethod}
+                        />
                     </div>
                 </div>
             </div>
