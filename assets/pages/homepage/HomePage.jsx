@@ -5,7 +5,6 @@ function HomePage() {
     return (
         <>
             <Navbar/>
-            <h1>HomePage</h1>
         </>
     );
 }

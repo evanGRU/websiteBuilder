@@ -1,0 +1,25 @@
+.auth-container {
+    display: flex;
+    justify-content: center;
+    height: 80vh;
+    .auth-form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 30%;
+        gap: 2em;
+        padding-top: 5em;
+        animation: translateAuthForm 500ms ease;
+    }
+
+    @keyframes translateAuthForm {
+        from {
+            transform: translateY(10px);
+            opacity: 0.8;
+        }
+        to {
+            transform: translateY(0px);
+            opacity: 1;
+        }
+    }
+}

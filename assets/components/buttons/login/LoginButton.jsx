@@ -8,8 +8,8 @@ export default function LoginButton() {
 
     return (
         <div
-            className="login-button-container"
-            onClick={() => navigate('/login')}
+            className="login-button-container button-main"
+            onClick={() => navigate('/auth')}
         >
             <p className="poppins-medium">Se connecter</p>
         </div>

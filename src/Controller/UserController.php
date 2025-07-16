@@ -14,43 +14,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserController extends AbstractController
 {
-    #[Route('/api/login', name: 'api_login', methods: ['POST'])]
-    public function login(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $passwordHasher
-    ): Response
-    {
-        $content = json_decode($request->getContent(), true);
-
-        if (!$content) {
-            return new Response(json_encode(['error' => 'Invalid JSON']), 400, ['Content-Type' => 'application/json']);
-        }
-
-        $email = $content['email'] ?? null;
-        $password = $content['password'] ?? null;
-
-        if (empty($email) || empty($password)) {
-            return new Response(json_encode(['error' => 'Email and password are required']), 400, ['Content-Type' => 'application/json']);
-        }
-
-        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
-
-        if (!$user) {
-            return new Response(json_encode(['error' => 'Invalid credentials']), 401, ['Content-Type' => 'application/json']);
-        }
-
-        if (!$passwordHasher->isPasswordValid($user, $password)) {
-            return new Response(json_encode(['error' => 'Invalid credentials']), 401, ['Content-Type' => 'application/json']);
-        }
-
-        return new Response(json_encode([
-            'message' => 'Login successful',
-            'email' => $user->getEmail(),
-            'roles' => $user->getRoles(),
-        ]), 200, ['Content-Type' => 'application/json']);
-    }
-
     #[Route('/api/register', name: 'api_register', methods: ['POST'])]
     public function register(
         Request $request,
@@ -61,29 +24,31 @@ final class UserController extends AbstractController
         $content = json_decode($request->getContent(), true);
 
         if (!$content) {
-            return new Response(json_encode(['error' => 'Invalid JSON']), 400, ['Content-Type' => 'application/json']);
+            return $this->json(['error' => 'Invalid JSON'], 400);
         }
 
-        if (empty($content['email']) || empty($content['password'])) {
-            return new Response(json_encode(['error' => 'Email and password are required']), 400, ['Content-Type' => 'application/json']);
+        if (empty($content['firstname']) || empty($content['name']) || empty($content['email']) || empty($content['password'])) {
+            return $this->json(['error' => 'Firstname, name, email and password are required'], 400);
         }
 
         $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $content['email']]);
         if ($existingUser) {
-            return new Response(json_encode(['error' => 'Email already exists']), 400, ['Content-Type' => 'application/json']);
+            return $this->json(['error' => 'Email already exists'], 400);
         }
 
         $user = new User();
+        $user->setFirstname($content['firstname']);
+        $user->setName($content['name']);
         $user->setEmail($content['email']);
+        $user->setRoles(['ROLE_USER']);
         $user->setPassword(
             $passwordHasher->hashPassword($user, $content['password'])
         );
-        $user->setRoles(['ROLE_USER']);
 
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return new Response(json_encode(['message' => 'User created successfully']), 201, ['Content-Type' => 'application/json']);
+        return $this->json(['message' => 'User registered successfully'], 201);
     }
 
     #[Route('/api/me', name: 'api_me', methods: ['GET'])]
@@ -95,7 +60,9 @@ final class UserController extends AbstractController
 
         return $this->json([
             'email' => $user->getUserIdentifier(),
-            'roles' => $user->getRoles()
+            'firstname' => $user->getFirstname(),
+            'name' => $user->getName(),
+            'roles' => $user->getRoles(),
         ]);
     }
 }

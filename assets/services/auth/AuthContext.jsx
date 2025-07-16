@@ -1,65 +1,58 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
+import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
     const navigate = useNavigate();
+    const location = useLocation();
+    const isAuthPage = location.pathname === "/auth";
+    const [token, setToken] = useState(() => localStorage.getItem("token"));
+    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")));
 
-    const token = localStorage.getItem("token");
-
-    function isTokenValid(token) {
-        try {
-            const decoded = jwtDecode(token);
-            return decoded.exp * 1000 > Date.now();
-        } catch (e) {
-            return false;
-        }
-    }
-
-    async function validateToken(token) {
-        if (!token || !isTokenValid(token)) {
-            console.log('valid');
-            logout();
-            return;
-        }
-
-        try {
-            const response = await axios.get("/api/me", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            setUser(response.data.email);
-        } catch (error) {
-            logout();
-        }
-    }
-
-    function login(token) {
+    const login = (token) => {
         localStorage.setItem("token", token);
-        validateToken(token);
-        navigate('/');
-    }
+        setToken(token);
+    };
 
-    function logout() {
+    const logout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setToken(null);
         setUser(null);
-        navigate("/login");
+    };
+
+    const checkToken = (token) => {
+        if (token) {
+            axios.get("/api/me", {
+                headers: {Authorization: `Bearer ${token}`},
+            }).then(response => {
+                if (response) {
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                    setUser(response.data);
+                    navigate('/dashboard');
+                } else {
+                    logout();
+                }
+            });
+        }
     }
 
     useEffect(() => {
-        if (location.pathname !== '/register'){
-            validateToken(token);
+        if (!user) {
+            checkToken(token);
         }
-    }, []);
+    }, [token, user]);
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user, navigate }}>
+        <AuthContext.Provider value={{
+            login,
+            logout,
+            user,
+            navigate,
+            isAuthPage
+        }}>
             {children}
         </AuthContext.Provider>
     );
