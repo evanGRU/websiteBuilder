@@ -1,118 +1,25 @@
 .auth-container {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    gap: 20px;
-
-    .auth-left-part-container {
-        background-color: var(--background-secondary);
-        width: 73%;
-        height: 780px;
-        border: 1px solid var(--border-color);
+    justify-content: center;
+    height: 80vh;
+    .auth-form-container {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        position: relative;
-
-        .background-image {
-            width: 100%;
-            height: 100%;
-            padding: 2em;
-            position: absolute;
-            z-index: 100;
-        }
-
-        .arrow {
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-
-            svg{
-                transition: transform 300ms ease;
-            }
-
-        }
-
-        .left-arrow{
-            border-left: 1px solid var(--main);
-
-            &:hover{
-                cursor: pointer;
-                border-left: 2px solid var(--main);
-
-                svg{
-                    transform: translateX(-2px);
-                }
-            }
-        }
-
-        .right-arrow{
-            border-right: 1px solid var(--main);
-
-            &:hover{
-                cursor: pointer;
-                border-right: 2px solid var(--main);
-
-                svg{
-                    transform: translateX(2px);
-                }
-            }
-        }
+        width: 30%;
+        gap: 2em;
+        padding-top: 5em;
+        animation: translateAuthForm 500ms ease;
     }
 
-    .auth-right-part-container {
-        width: 25%;
-        height: 800px;
-        min-width: 420px;
-
-        .form-nav {
-            display: flex;
-            align-items: flex-end;
-            height: 40px;
-            width: 100%;
-
-            .form-nav-button {
-                height: 100%;
-                width: 35%;
-                padding: 1em;
-                border: 1px solid var(--border-color);
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                background-color: var(--background-secondary);
-
-                &:hover{
-                    border: 1px solid var(--main);
-                    cursor: pointer;
-                }
-
-                p {
-                    color: var(--text-main);
-                    font-size: 14px;
-                }
-            }
-
-            .form-nav-button-selected{
-                border: 1px solid var(--main);
-            }
-
-            .decoration-bar {
-                background-color: var(--main);
-                height: 20px;
-                width: 30%;
-            }
+    @keyframes translateAuthForm {
+        from {
+            transform: translateY(10px);
+            opacity: 0.8;
         }
-
-        .auth-form-container {
-            border: 1px solid var(--border-color);
-            border-top: none;
-            background-color: var(--background-secondary);
-            height: 740px;
-            width: 100%;
-            padding: 2em;
+        to {
+            transform: translateY(0px);
+            opacity: 1;
         }
     }
 }

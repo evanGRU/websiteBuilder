@@ -4,8 +4,11 @@ import './authForm.scss';
 import {useAuth} from "../../services/auth/AuthContext";
 import {AppleLogo, GoogleLogo, HiddenIcon, VisibleIcon} from "../../services/svg";
 import {authMethod} from "../../services/params";
+import {toast} from "react-toastify";
 
-function AuthForm({currentAuthMethod}) {
+function AuthForm() {
+    const [currentAuthMethod, setCurrentAuthMethod] = useState(authMethod.login);
+
     const [showPassword, setShowPassword] = useState({});
     const [formData, setFormData] = useState({});
 
@@ -17,14 +20,15 @@ function AuthForm({currentAuthMethod}) {
         try {
             if (currentAuthMethod === authMethod.login) {
                 const response = await axios.post("/api/login", (formData));
-                const token = response.data.token;
-                login(token);
+                toast.success("Vous êtes connecté.");
+                login(response.data.token);
             } else {
                 const response = await axios.post("/api/register", (formData));
+                toast.success("Vous êtes désormais inscrit. Connectez-vous pour accéder à votre compte.");
+                setCurrentAuthMethod(authMethod.login);
             }
         } catch (error) {
-            console.error("Erreur de connexion :", error.response?.data || error.message);
-            setFormData("");
+            toast.error("Une erreur s'est produite, veuillez réessayer.");
         }
     }
 
@@ -45,7 +49,7 @@ function AuthForm({currentAuthMethod}) {
             })
         } else {
             setFormData({
-                firstName: "",
+                firstname: "",
                 name: "",
                 email: "",
                 password: "",
@@ -61,52 +65,88 @@ function AuthForm({currentAuthMethod}) {
 
     return (
         <>
+            <div className="auth-titles">
+                {
+                    currentAuthMethod === authMethod.login ?
+                        <>
+                            <h1 className="poppins-semibold">Se connecter</h1>
+                            <div className="auth-titles-container">
+                                <h4 className="poppins-light">Vous n'avez pas encore de compte ?</h4>
+                                <p
+                                    onClick={() => {setCurrentAuthMethod(authMethod.register)}}
+                                    className="poppins-light"
+                                >
+                                    S'inscrire
+                                </p>
+                            </div>
+                        </> :
+                        <>
+                            <h1 className="poppins-semibold">S'inscrire</h1>
+                            <div className="auth-titles-container">
+                                <h4 className="poppins-light">Vous avez déjà un compte ?</h4>
+                                <p
+                                    onClick={() => {setCurrentAuthMethod(authMethod.login)}}
+                                    className="poppins-light"
+                                >
+                                    Se connecter
+                                </p>
+                            </div>
+                        </>
+                }
+            </div>
+
             <form onSubmit={handleSubmit} className="auth-form">
 
                 {
                     currentAuthMethod === authMethod.register &&
                     <div className="auth-form-double-input-container">
-                        {/* Email input */}
+                        {/* Firstname input */}
                         <div className="auth-form-input-container">
-                            <label htmlFor="firstname" className="auth-label">Prénom :</label>
                             <input
                                 type="text"
-                                value={formData.firstName}
+                                value={formData.firstname}
                                 className="auth-input"
                                 name="firstname"
                                 onChange={handleChangeForm}
-                                required/>
+                                placeholder=""
+                                required
+                            />
+                            <label htmlFor="firstname" className="auth-label">Prénom :</label>
                         </div>
 
-                        {/* Email input */}
+                        {/* Name input */}
                         <div className="auth-form-input-container">
-                            <label htmlFor="name" className="auth-label">Nom :</label>
                             <input
                                 type="text"
                                 value={formData.name}
                                 className="auth-input"
                                 name="name"
                                 onChange={handleChangeForm}
-                                required/>
+                                placeholder=""
+                                required
+                            />
+                            <label htmlFor="name" className="auth-label">Nom :</label>
                         </div>
                     </div>
                 }
 
                 {/* Email input */}
                 <div className="auth-form-input-container">
-                    <label htmlFor="email" className="auth-label">Adresse e-mail :</label>
                     <input
                         type="text"
                         value={formData.email}
                         className="auth-input"
                         name="email"
                         onChange={handleChangeForm}
-                        required/>
+                        placeholder=""
+                        required
+                    />
+                    <label htmlFor="email" className="auth-label">E-mail :</label>
                 </div>
 
                 {/* Password input */}
                 <div className="auth-form-input-container">
-                    <label htmlFor="password" className="auth-label">Mot de passe :</label>
+
                     <div className="password-input-container">
                         <input
                             type={showPassword.password ? "text" : "password"}
@@ -114,8 +154,11 @@ function AuthForm({currentAuthMethod}) {
                             className="auth-input"
                             name="password"
                             onChange={handleChangeForm}
+                            placeholder=""
                             required
                         />
+
+                        <label htmlFor="password" className="auth-label">Mot de passe :</label>
 
                         <button
                             type="button"
@@ -132,7 +175,6 @@ function AuthForm({currentAuthMethod}) {
                 {
                     currentAuthMethod === authMethod.register &&
                     <div className="auth-form-input-container">
-                        <label htmlFor="confirmedPassword" className="auth-label">Confirmez votre mot de passe :</label>
                         <div className="password-input-container">
                             <input
                                 type={showPassword.confirmedPassword ? "text" : "password"}
@@ -140,8 +182,11 @@ function AuthForm({currentAuthMethod}) {
                                 className="auth-input"
                                 name="confirmedPassword"
                                 onChange={handleChangeForm}
+                                placeholder=""
                                 required
                             />
+
+                            <label htmlFor="confirmedPassword" className="auth-label">Confirmez votre mot de passe :</label>
 
                             <button
                                 type="button"
@@ -155,26 +200,48 @@ function AuthForm({currentAuthMethod}) {
                     </div>
                 }
 
-                <div className="auth-button-container">
-                    <button type="submit" className="button-main auth-button">
+                <div className="auth-buttons-container">
+                    <button type="submit" className="button-main auth-submit-button">
                         {currentAuthMethod === authMethod.login ? 'Se connecter' : 'S\'inscrire'}
                     </button>
 
+
+
                     {
                         currentAuthMethod === authMethod.login &&
-                        <div className="auth-external-buttons">
-                            <a href="" className="button-secondary">
-                                <AppleLogo/>
-                                Se connecter avec Apple.
-                            </a>
-                            <a href="" className="button-secondary">
-                                <GoogleLogo/>
-                                Se connecter avec Google.
-                            </a>
-                        </div>
+                        <>
+                            <div className="auth-method-separator">
+                                <div className="auth-line"></div>
+                                <p>ou</p>
+                                <div className="auth-line"></div>
+                            </div>
+
+                            <div className="auth-external-links">
+                                <a href="" className="external-link-button">
+                                    <div className="external-link-logo">
+                                        <AppleLogo/>
+                                    </div>
+                                    <div className="external-link-text">
+                                        Se connecter avec Apple.
+                                    </div>
+                                </a>
+
+                                <a href="" className="external-link-button">
+                                    <div className="external-link-logo">
+                                        <GoogleLogo/>
+                                    </div>
+                                    <div className="external-link-text">
+                                        Se connecter avec Google.
+                                    </div>
+                                </a>
+
+                                <a href="/dashboard" className="button-secondary">
+                                    Dashboard
+                                </a>
+                            </div>
+                        </>
                     }
                 </div>
-
             </form>
         </>
     )

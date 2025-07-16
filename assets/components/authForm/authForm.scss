@@ -1,41 +1,87 @@
+.auth-titles {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    h1{
+        font-size: 50px;
+    }
+
+    .auth-titles-container {
+        display: flex;
+        gap: 5px;
+        p {
+            color: var(--main-orange);
+            &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
 .auth-form {
+    width: 360px;
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 20px;
 
     .auth-form-double-input-container {
         display: flex;
-        gap: 1em;
-        align-items: center;
-        justify-content: center;
+        gap: 20px;
     }
 
     .auth-form-input-container {
         display: flex;
         flex-direction: column;
-
-        .auth-label {
-            color: var(--text-main);
-            font-size: 16px;
-        }
+        justify-content: center;
+        position: relative;
 
         .auth-input {
+            outline: none;
             width: 100%;
             height: 40px;
             padding: 1em;
-            border: 1px solid var(--main);
+            border: none;
+            border-bottom: 1px solid var(--main);
+            background-color: transparent;
+            font-size: 16px;
+            transition: all 0.2s ease;
+
+            &:focus {
+                border-bottom: 1px solid var(--main-orange);
+            }
+
+            &:focus + .auth-label {
+                color: var(--main-orange);
+            }
+
+            &:focus + .auth-label,
+            &:not(:placeholder-shown) + .auth-label {
+                font-size: 12px;
+                top: -14px;
+                left: 6px;
+            }
         }
+
+        .auth-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+
 
         .password-input-container{
             position: relative;
-
             .toggle-password-button {
                 position: absolute;
                 background-color: transparent;
                 border: none;
                 right: 10px;
                 top: 10px;
-
                 svg {
                     &:hover {
                         cursor: pointer;
@@ -45,42 +91,164 @@
         }
     }
 
-    .auth-button-container {
-        margin-top: 0.5em;
+    .auth-buttons-container {
+        display: flex;
+        flex-direction: column;
 
-        .auth-button {
-            width: 100%;
+        .auth-submit-button {
             height: 40px;
             font-size: 16px;
-            font-weight: 400;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .auth-external-buttons {
+        .auth-method-separator {
+            margin: 30px 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .auth-line {
+                height: 1px;
+                width: 45%;
+                opacity: 0.3;
+                background-color: var(--main);
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+
+        .auth-external-links {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5em;
-            margin-top: 2em;
+            gap: 10px;
 
-            a {
-                text-decoration: none;
-                width: 100%;
+            .external-link-button {
+                border: 1px solid var(--black);
                 height: 40px;
                 display: flex;
                 align-items: center;
-                justify-content: flex-start;
-                padding: 0 22%;
-                gap: 0.5em;
+                transition: all 0.3s ease;
+                text-decoration: none;
 
-                svg {
-                    width: 25px;
-                    height: 25px;
+                .external-link-logo {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    width: 40px;
+                    border-right: 1px solid var(--black);
+                    svg {
+                        transform: scale(1.2);
+                    }
+                }
+
+                .external-link-text {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 320px;
+                    height: 100%;
+                    color: var(--text-black);
+                    font-size: 14px;
+                }
+
+                &:hover {
+                    text-decoration: underline;
+                    background-color: var(--gray);
                 }
             }
         }
     }
 }
+
+
+
+
+//.auth-form {
+//    display: flex;
+//    flex-direction: column;
+//    gap: 0.5em;
+//
+//    .auth-form-double-input-container {
+//        display: flex;
+//        gap: 1em;
+//        align-items: center;
+//        justify-content: center;
+//    }
+//
+//    .auth-form-input-container {
+//        display: flex;
+//        flex-direction: column;
+//
+//        .auth-label {
+//            color: var(--text-black);
+//            font-size: 16px;
+//        }
+//
+//        .auth-input {
+//            width: 100%;
+//            height: 40px;
+//            padding: 1em;
+//            border: 1px solid var(--main);
+//        }
+//
+//        .password-input-container{
+//            position: relative;
+//
+//            .toggle-password-button {
+//                position: absolute;
+//                background-color: transparent;
+//                border: none;
+//                right: 10px;
+//                top: 10px;
+//
+//                svg {
+//                    &:hover {
+//                        cursor: pointer;
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    .auth-button-container {
+//        margin-top: 0.5em;
+//
+//        .auth-button {
+//            width: 100%;
+//            height: 40px;
+//            font-size: 16px;
+//            font-weight: 400;
+//            display: flex;
+//            align-items: center;
+//            justify-content: center;
+//        }
+//
+//        .auth-external-buttons {
+//            display: flex;
+//            flex-direction: column;
+//            align-items: center;
+//            justify-content: center;
+//            gap: 0.5em;
+//            margin-top: 2em;
+//
+//            a {
+//                text-decoration: none;
+//                width: 100%;
+//                height: 40px;
+//                display: flex;
+//                align-items: center;
+//                justify-content: flex-start;
+//                padding: 0 22%;
+//                gap: 0.5em;
+//
+//                svg {
+//                    width: 25px;
+//                    height: 25px;
+//                }
+//            }
+//        }
+//    }
+//}

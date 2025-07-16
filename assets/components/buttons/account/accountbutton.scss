@@ -1,0 +1,78 @@
+.account-button-wrapper {
+    position: relative;
+}
+
+.account-button {
+    background: none;
+    border: 1px solid var(--main);
+    padding: 0.5em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    transition: all 200ms ease;
+
+    svg{
+        z-index: 2000;
+    }
+
+    &:hover {
+        background-color: var(--main);
+        color: var(--text-white);
+    }
+}
+
+.account-button-open{
+    color: var(--text-white);
+    &:hover {
+        cursor: default;
+    }
+}
+
+.account-dropdown {
+    position: absolute;
+    padding-top: 40px;
+    background-color: var(--main);
+    top: 0;
+    right: 0;
+    border: 1px solid var(--main);
+    list-style: none;
+    z-index: 1000;
+    width: 200px;
+    overflow: hidden;
+
+    li a {
+        display: block;
+        padding: 0.5em 1em;
+        text-decoration: none;
+        color: var(--text-main);
+        background: var(--background-secondary);
+
+
+        &:hover {
+            background-color: var(--main);
+            color: white;
+        }
+    }
+}
+
+.account-dropdown-open{
+    animation: openDropdown 500ms ease;
+}
+
+@keyframes openDropdown {
+    0% {
+        width: 0;
+        height: 0;
+    }
+    30% {
+        width: 200px;
+        height: 40px;
+    }
+    100% {
+        width: 200px;
+        height: 200px;
+    }
+}
