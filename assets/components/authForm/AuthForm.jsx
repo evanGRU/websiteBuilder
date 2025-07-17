@@ -234,10 +234,6 @@ function AuthForm() {
                                         Se connecter avec Google.
                                     </div>
                                 </a>
-
-                                <a href="/dashboard" className="button-secondary">
-                                    Dashboard
-                                </a>
                             </div>
                         </>
                     }
