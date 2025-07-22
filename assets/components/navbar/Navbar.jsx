@@ -1,13 +1,13 @@
 import './navbar.scss';
 import React from "react";
-import {Logo} from "../../services/svg";
+import {AccountIcon, Logo, LogOutIcon, WebsitesIcon} from "../../services/svg";
 import LoginButton from "../buttons/login/LoginButton";
 import {useAuth} from "../../services/auth/AuthContext";
-import AccountButton from "../buttons/account/AccountButton";
+import OpeningButton from "../buttons/openingButton/OpeningButton";
 
 
 export default function Navbar() {
-    const { isAuthPage, user } = useAuth();
+    const { isAuthPage, user, logout } = useAuth();
 
     return (
         <div className="navbar-container">
@@ -18,7 +18,22 @@ export default function Navbar() {
             <div className="navbar-buttons-container">
                 {!isAuthPage ?
                     user ?
-                        <AccountButton/>
+                        <OpeningButton
+                            name="accountButton"
+                            title={user.fullname}
+                            icon={<AccountIcon />}
+                        >
+                            <li><a href="#"><AccountIcon /> Mon compte</a></li>
+                            <li><a href="/dashboard"><WebsitesIcon /> Mes sites</a></li>
+                            <li>
+                                <a href="/auth" onClick={(e) => {
+                                    e.preventDefault();
+                                    logout();
+                                }}>
+                                    <LogOutIcon /> Se déconnecter
+                                </a>
+                            </li>
+                        </OpeningButton>
                         : <LoginButton/>
                     : ""
                 }

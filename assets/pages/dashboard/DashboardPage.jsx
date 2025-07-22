@@ -63,9 +63,12 @@ function DashboardPage() {
                             <td className="table-column-default">{project.createdBy.fullName}</td>
                             <td className="table-column-default">{projectStates[project.state] ?? ''}</td>
                             <td className="table-column-actions">
-                                <button className="button-secondary">
-                                    <MoreIcon/>
-                                </button>
+                                <OpeningButton
+                                    icon={<MoreIcon/>}
+                                >
+                                    <li><button><EditIcon/>Modifier</button></li>
+                                    <li><button><DeleteIcon/>Supprimer</button></li>
+                                </OpeningButton>
                             </td>
                         </tr>
                     ))}

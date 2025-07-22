@@ -1,0 +1,112 @@
+.modal-background {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(16, 16, 16, 0.62);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+
+    .modal {
+        transform: translateY(-200px);
+        display: flex;
+        flex-direction: column;
+        background-color: var(--background-secondary);
+        width: 400px;
+
+        .modal-header {
+            background-color: var(--main);
+            height: 50px;
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px 0 25px;
+
+            p {
+                font-size: 14px;
+            }
+
+            button {
+                background-color: transparent;
+                border: none;
+                padding: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                    color: var(--text-white);
+                    transition: all 300ms ease;
+                }
+
+                &:hover {
+                    cursor: pointer;
+
+                    svg {
+                        color: var(--main-blue);
+                    }
+                }
+            }
+        }
+
+        .modal-form {
+            padding: 30px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+
+            .modal-input-container{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                position: relative;
+
+                .modal-input {
+                    outline: none;
+                    width: 100%;
+                    height: 40px;
+                    padding: 1em;
+                    border: none;
+                    border-bottom: 1px solid var(--main);
+                    background-color: transparent;
+                    font-size: 16px;
+                    transition: all 0.2s ease;
+
+                    &:focus {
+                        border-bottom: 1px solid var(--main-blue);
+                    }
+
+                    &:focus + .modal-label {
+                        color: var(--main-blue);
+                    }
+
+                    &:focus + .modal-label,
+                    &:not(:placeholder-shown) + .modal-label {
+                        font-size: 12px;
+                        top: -14px;
+                        left: 6px;
+                    }
+                }
+
+                .modal-label {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    font-size: 16px;
+                    transition: all 0.2s ease;
+                    pointer-events: none;
+                }
+            }
+
+            button {
+                width: 50%;
+            }
+        }
+    }
+}
