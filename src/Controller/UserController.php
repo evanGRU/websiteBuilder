@@ -21,31 +21,31 @@ final class UserController extends AbstractController
         UserPasswordHasherInterface $passwordHasher
     ): Response
     {
-        $content = json_decode($request->getContent(), true);
+        $user = json_decode($request->getContent(), true);
 
-        if (!$content) {
+        if (!$user) {
             return $this->json(['error' => 'Invalid JSON'], 400);
         }
 
-        if (empty($content['firstname']) || empty($content['name']) || empty($content['email']) || empty($content['password'])) {
+        if (empty($user['firstname']) || empty($user['name']) || empty($user['email']) || empty($user['password'])) {
             return $this->json(['error' => 'Firstname, name, email and password are required'], 400);
         }
 
-        $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $content['email']]);
+        $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $user['email']]);
         if ($existingUser) {
             return $this->json(['error' => 'Email already exists'], 400);
         }
 
-        $user = new User();
-        $user->setFirstname($content['firstname']);
-        $user->setName($content['name']);
-        $user->setEmail($content['email']);
-        $user->setRoles(['ROLE_USER']);
-        $user->setPassword(
-            $passwordHasher->hashPassword($user, $content['password'])
+        $newUser = new User();
+        $newUser->setFirstname($user['firstname']);
+        $newUser->setName($user['name']);
+        $newUser->setEmail($user['email']);
+        $newUser->setRoles(['ROLE_USER']);
+        $newUser->setPassword(
+            $passwordHasher->hashPassword($newUser, $user['password'])
         );
 
-        $entityManager->persist($user);
+        $entityManager->persist($newUser);
         $entityManager->flush();
 
         return $this->json(['message' => 'User registered successfully'], 201);
@@ -60,9 +60,7 @@ final class UserController extends AbstractController
 
         return $this->json([
             'email' => $user->getUserIdentifier(),
-            'firstname' => $user->getFirstname(),
-            'name' => $user->getName(),
-            'roles' => $user->getRoles(),
+            'fullname' => $user->getFullname(),
         ]);
     }
 }
