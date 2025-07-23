@@ -11,7 +11,7 @@
         display: flex;
         gap: 5px;
         p {
-            color: var(--main-orange);
+            color: var(--main-blue);
             &:hover {
                 text-decoration: underline;
                 cursor: pointer;
@@ -49,11 +49,11 @@
             transition: all 0.2s ease;
 
             &:focus {
-                border-bottom: 1px solid var(--main-orange);
+                border-bottom: 1px solid var(--main-blue);
             }
 
             &:focus + .auth-label {
-                color: var(--main-orange);
+                color: var(--main-blue);
             }
 
             &:focus + .auth-label,

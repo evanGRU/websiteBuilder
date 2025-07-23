@@ -3,7 +3,7 @@ export const authMethod = {
     register: 'register'
 }
 
-export const theme = {
-    light: 'light',
-    dark: 'dark'
+export const projectStates = {
+    pending: 'En cours',
+    finished: 'Terminé'
 }

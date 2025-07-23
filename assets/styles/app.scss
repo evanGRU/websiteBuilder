@@ -12,6 +12,7 @@ body {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     color: var(--main);
+    position: relative;
 }
 
 .button-main{
@@ -20,11 +21,13 @@ body {
     color: var(--text-white);
     background-color: var(--button-main);
     border: 1px solid var(--button-main);
-    transition: 300ms;
+    transition: all 300ms ease;
     padding: 0.5em 1em;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 10px;
+    font-size: 14px;
 
     &:hover {
         cursor: pointer;
@@ -33,20 +36,19 @@ body {
 }
 
 .button-secondary{
+    padding: 16px;
+    border-radius: 0;
+    border: 1px solid #d4d4d8;
     font-family: "Poppins", sans-serif;
     font-weight: 300;
-    font-size: 12px;
+    font-size: 14px;
+    background-color: var(--background-secondary);
+    transition: all 300ms ease;
     color: var(--text-black);
-    border: 1px solid var(--border-color);
-    transition: 300ms;
-    padding: 0.5em 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     &:hover {
         cursor: pointer;
-        background-color: var(--gray);
+        background-color: #d4d4d8;
     }
 }
 
