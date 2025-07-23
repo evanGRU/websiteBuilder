@@ -10,7 +10,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ProjectsRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['project:list']],
-    denormalizationContext: ['groups' => ['project:write']]
+    denormalizationContext: ['groups' => ['project:write']],
+    order: ['updatedAt' => 'DESC']
 )]
 #[ORM\HasLifecycleCallbacks]
 class Projects
@@ -22,7 +23,7 @@ class Projects
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['project:list'])]
+    #[Groups(['project:list', 'project:write'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
@@ -39,7 +40,7 @@ class Projects
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['project:list'])]
+    #[Groups(['project:list', 'project:write'])]
     private ?string $state = null;
 
     public function getId(): ?int

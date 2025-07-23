@@ -5,13 +5,23 @@ import {projectStates} from "../../services/params";
 import {DeleteIcon, EditIcon, MoreIcon} from "../../services/svg";
 import {toast} from "react-toastify";
 import api from "../../services/auth/api";
-import {AddProjectModal} from "../../components/modals/AddProjectModal";
+import {AddEditModal} from "../../components/modals/addEditModal/AddEditModal";
 import {formatCreatedDate, formatUpdatedDate} from "../../services/formatFunctions";
 import OpeningButton from "../../components/buttons/openingButton/OpeningButton";
+import {DeleteModal} from "../../components/modals/deleteModal/DeleteModal";
+import {useModalManager} from "../../services/useModalManager";
 
 function DashboardPage() {
     const [projectList, setProjectList] = useState([]);
-    const [displayAddProjectModal, setDisplayAddProjectModal] = useState(false);
+    const [projectToEdit, setProjectToEdit] = useState(null);
+    const [projectToDelete, setProjectToDelete] = useState(null);
+
+    const {
+        displayAddEditModal,
+        setDisplayAddEditModal,
+        displayDeleteModal,
+        setDisplayDeleteModal
+    } = useModalManager();
 
     const getProjectList = async () => {
         try {
@@ -23,20 +33,40 @@ function DashboardPage() {
     }
 
     useEffect(() => {
-        getProjectList()
-    }, []);
+        if (!displayDeleteModal){
+            getProjectList();
+            setProjectToDelete(null);
+        }
+    }, [displayDeleteModal]);
+
+    const handleEditProject = (project) => {
+        setDisplayAddEditModal(true);
+        setProjectToEdit(project);
+    }
+
+    const handleDeleteProject = (project) => {
+        setDisplayDeleteModal(true);
+        setProjectToDelete(project.id);
+    }
+
+    useEffect(() => {
+        if (!displayAddEditModal){
+            setProjectToEdit(null);
+            getProjectList();
+        }
+    }, [displayAddEditModal]);
 
     return (
         <>
             <Navbar/>
             <div className="dashboard-container">
                 <div className="dashboard-header">
-                    <h1 className="poppins-medium">Sites créés</h1>
+                    <h1 className="poppins-medium">Mes sites</h1>
                     <div className="dashboard-header-buttons">
                         <button
                             className="button-main"
                             onClick={() => {
-                                setDisplayAddProjectModal(true);
+                                setDisplayAddEditModal(true);
                             }}
                         >
                             Créer un nouveau site
@@ -66,8 +96,18 @@ function DashboardPage() {
                                 <OpeningButton
                                     icon={<MoreIcon/>}
                                 >
-                                    <li><button><EditIcon/>Modifier</button></li>
-                                    <li><button><DeleteIcon/>Supprimer</button></li>
+                                    <li>
+                                        <button onClick={() => handleEditProject(project)}>
+                                            <EditIcon/>
+                                            Modifier
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button onClick={() => handleDeleteProject(project)}>
+                                            <DeleteIcon/>
+                                            Supprimer
+                                        </button>
+                                    </li>
                                 </OpeningButton>
                             </td>
                         </tr>
@@ -75,8 +115,13 @@ function DashboardPage() {
                     </tbody>
                 </table>
 
-                {
-                    displayAddProjectModal && <AddProjectModal setDisplayModal={setDisplayAddProjectModal}/>
+                {displayAddEditModal && <AddEditModal setDisplayModal={setDisplayAddEditModal} dataToEdit={projectToEdit}/>}
+                {displayDeleteModal &&
+                    <DeleteModal
+                        setDisplayModal={setDisplayDeleteModal}
+                        table={'projects'}
+                        dataToDelete={projectToDelete}
+                    />
                 }
             </div>
         </>

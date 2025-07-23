@@ -19,6 +19,7 @@ api.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             toast.error("Session expirée, veuillez vous reconnecter.");
             localStorage.removeItem("token");
+            localStorage.removeItem("user");
             window.location.href = "/auth";
         }
         return Promise.reject(error);
