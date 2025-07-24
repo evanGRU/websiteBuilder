@@ -43,9 +43,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $Name = null;
 
     /**
-     * @var Collection<int, Projects>
+     * @var Collection<int, Project>
      */
-    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'createdBy')]
+    #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'createdBy')]
     private Collection $projects;
 
     public function __construct()

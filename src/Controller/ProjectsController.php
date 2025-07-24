@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Projects;
-use App\Repository\ProjectsRepository;
-use phpDocumentor\Reflection\Project;
+use App\Entity\Component;
+use App\Entity\Div;
+use App\Entity\Project;
+use App\Entity\Text;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,14 +14,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class ProjectsController extends AbstractController
 {
-    #[Route('/api/projects', name: 'api_projects_list', methods: ['GET'])]
-    public function listProjects(EntityManagerInterface $entityManager): Response
-    {
-        $projects = $entityManager->getRepository(Projects::class)->findAll();
-
-        return $this->json($projects);
-    }
-
     #[Route('/api/projects/new', name: 'api_projects_new', methods: ['POST'])]
     public function newProject(
         Request $request,
@@ -37,7 +30,7 @@ final class ProjectsController extends AbstractController
             return $this->json(['error' => 'Name is required'], 400);
         }
 
-        $newProject = new Projects();
+        $newProject = new Project();
         $newProject->setName($project['name']);
         $newProject->setCreatedBy($this->getUser());
         $newProject->setState('pending');

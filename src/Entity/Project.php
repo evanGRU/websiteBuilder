@@ -3,18 +3,21 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\ProjectsRepository;
+use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: ProjectsRepository::class)]
+#[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['project:list']],
     denormalizationContext: ['groups' => ['project:write']],
     order: ['updatedAt' => 'DESC']
 )]
 #[ORM\HasLifecycleCallbacks]
-class Projects
+#[ORM\Table(name: "projects")]
+class Project
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -42,6 +45,17 @@ class Projects
     #[ORM\Column(length: 255)]
     #[Groups(['project:list', 'project:write'])]
     private ?string $state = null;
+
+    /**
+     * @var Collection<int, Component>
+     */
+    #[ORM\OneToMany(targetEntity: Component::class, mappedBy: 'project', orphanRemoval: true)]
+    private Collection $components;
+
+    public function __construct()
+    {
+        $this->components = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -110,6 +124,36 @@ class Projects
     public function setState(string $state): static
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Component>
+     */
+    public function getComponents(): Collection
+    {
+        return $this->components;
+    }
+
+    public function addComponent(Component $component): static
+    {
+        if (!$this->components->contains($component)) {
+            $this->components->add($component);
+            $component->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComponent(Component $component): static
+    {
+        if ($this->components->removeElement($component)) {
+            // set the owning side to null (unless already changed)
+            if ($component->getProject() === $this) {
+                $component->setProject(null);
+            }
+        }
 
         return $this;
     }
