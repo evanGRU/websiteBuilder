@@ -10,11 +10,13 @@ import {formatCreatedDate, formatUpdatedDate} from "../../services/formatFunctio
 import OpeningButton from "../../components/buttons/openingButton/OpeningButton";
 import {DeleteModal} from "../../components/modals/deleteModal/DeleteModal";
 import {useModalManager} from "../../services/useModalManager";
+import {useAuth} from "../../services/auth/AuthContext";
 
 function DashboardPage() {
     const [projectList, setProjectList] = useState([]);
     const [projectToEdit, setProjectToEdit] = useState(null);
     const [projectToDelete, setProjectToDelete] = useState(null);
+    const {navigate} = useAuth();
 
     const {
         displayAddEditModal,
@@ -87,7 +89,7 @@ function DashboardPage() {
                     <tbody>
                     {projectList && projectList.map((project) => (
                         <tr>
-                            <td className="table-column-name"><div className="temp-img"></div>{project.name}</td>
+                            <td className="table-column-name" onClick={() => {navigate('/builder/' + project.id)}}><div className="temp-img"></div>{project.name}</td>
                             <td className="table-column-default">{formatUpdatedDate(project.updatedAt)}</td>
                             <td className="table-column-default">{formatCreatedDate(project.createdAt)}</td>
                             <td className="table-column-default">{project.createdBy.fullName}</td>
@@ -119,7 +121,6 @@ function DashboardPage() {
                 {displayDeleteModal &&
                     <DeleteModal
                         setDisplayModal={setDisplayDeleteModal}
-                        table={'projects'}
                         dataToDelete={projectToDelete}
                     />
                 }

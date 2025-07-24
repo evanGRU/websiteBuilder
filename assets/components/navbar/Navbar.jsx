@@ -7,11 +7,11 @@ import OpeningButton from "../buttons/openingButton/OpeningButton";
 
 
 export default function Navbar() {
-    const { isAuthPage, user, logout } = useAuth();
+    const { isAuthPage, user, logout, navigate } = useAuth();
 
     return (
         <div className="navbar-container">
-            <a href="/">
+            <a href={user ? "/dashboard" : "/"}>
                 <Logo/>
             </a>
 
@@ -26,9 +26,10 @@ export default function Navbar() {
                             <li><a href="#"><AccountIcon /> Mon compte</a></li>
                             <li><a href="/dashboard"><WebsitesIcon /> Mes sites</a></li>
                             <li>
-                                <a href="/auth" onClick={(e) => {
+                                <a href="/" onClick={(e) => {
                                     e.preventDefault();
                                     logout();
+                                    navigate('/');
                                 }}>
                                     <LogOutIcon /> Se déconnecter
                                 </a>

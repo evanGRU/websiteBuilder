@@ -5,6 +5,7 @@ import ErrorPage from "./pages/ErrorPage";
 import AuthPage from "./pages/auth/AuthPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import BuilderPage from "./pages/builder/BuilderPage";
 
 function Router() {
     return (
@@ -13,6 +14,7 @@ function Router() {
             <Route path="/auth" element={<AuthPage />} />
             <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/builder/:id" element={<BuilderPage />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
         </Routes>

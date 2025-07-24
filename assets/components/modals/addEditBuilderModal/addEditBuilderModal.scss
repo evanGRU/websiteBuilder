@@ -1,0 +1,108 @@
+.modal-form {
+    padding: 30px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+
+    .modal-input-container{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+
+        .modal-input {
+            outline: none;
+            width: 100%;
+            height: 40px;
+            padding: 1em;
+            border: none;
+            border-bottom: 1px solid var(--main);
+            background-color: transparent;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            font-weight: 400;
+
+            &:focus {
+                border-bottom: 1px solid var(--main-blue);
+            }
+
+            &:focus + .modal-label {
+                color: var(--main-blue);
+            }
+        }
+
+        .modal-label {
+            position: absolute;
+            font-size: 12px;
+            top: -14px;
+            left: 6px;
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+    }
+
+    .modal-select-container{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+
+
+        .modal-select {
+            outline: none;
+            width: 100%;
+            height: 40px;
+            padding: 0 12px;
+            border: none;
+            border-bottom: 1px solid var(--main);
+            background-color: transparent;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+
+            option{
+                border: 2px solid var(--main);
+            }
+
+            &:focus {
+                border-bottom: 1px solid var(--main-blue);
+            }
+
+            &:focus + .modal-label {
+                color: var(--main-blue);
+            }
+        }
+
+        .modal-label {
+            position: absolute;
+            font-size: 12px;
+            top: -14px;
+            left: 6px;
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+    }
+
+    .modal-buttons-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 40px;
+        gap: 10px;
+
+        button {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+
+}
