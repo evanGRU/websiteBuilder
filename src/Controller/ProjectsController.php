@@ -40,4 +40,37 @@ final class ProjectsController extends AbstractController
 
         return $this->json(['message' => 'Project has been created.'], 201);
     }
+
+    #[Route('/api/projects/{id}/websiteData', name: 'api_project_website_data', methods: ['GET'])]
+    public function getWebsiteData(int $id, EntityManagerInterface $em): Response
+    {
+        $components = $em->getRepository(Component::class)->findByProjectWithContent($id);
+        $result = [];
+
+        foreach ($components as $component) {
+            $content = $component->getContent();
+            $contentData = null;
+
+            if ($content instanceof Text) {
+                $contentData = [
+                    'type' => 'text',
+                    'tag' => $content->getTag(),
+                    'text' => $content->getText(),
+                ];
+            } elseif ($content instanceof Div) {
+                $contentData = [
+                    'type' => 'div',
+                    'class' => $content->getClass(),
+                ];
+            }
+
+            $result[] = [
+                'id' => $component->getId(),
+                'type' => $component->getType(),
+                'content' => $contentData,
+            ];
+        }
+
+        return $this->json($result);
+    }
 }
