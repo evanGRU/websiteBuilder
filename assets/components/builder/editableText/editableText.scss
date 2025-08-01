@@ -1,0 +1,15 @@
+.editable {
+    width: max-content;
+    &:hover {
+        cursor: pointer;
+        outline: 1px solid #75baed;
+    }
+}
+
+.edit-active {
+    width: max-content;
+    outline: 1px dashed var(--main-blue);
+    &:hover {
+        cursor: text !important;
+    }
+}

@@ -1,0 +1,45 @@
+.color-picker-container {
+    position: relative;
+    height: 25px;
+    width: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .color-picker-input {
+        height: 100%;
+        width: 100%;
+        border: 1px solid var(--gray);
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        input {
+            width:85px;
+            height: 100%;
+            border: none;
+            padding: 0 5px;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        button {
+            width: 25px;
+            height: 100%;
+            border: none;
+            border-left: 1px solid var(--gray);
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .color-picker {
+        position: absolute;
+        bottom: 30px;
+    }
+}

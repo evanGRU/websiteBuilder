@@ -23,11 +23,11 @@ final class ComponentsController extends AbstractController
         $project = $em->getRepository(Project::class)->findOneBy(['id' => $data['projectId']]);
 
         $newComponent = new Component();
-        $newComponent->setType($data['component']['type']);
+        $newComponent->setType($data['type']);
         $newComponent->setProject($project);
 
         $newContent = [];
-        switch ($data['component']['type']) {
+        switch ($data['type']) {
             case "text":
                 $newContent = new Text();
                 $newContent->setTag($data['component']['tag']);
@@ -45,6 +45,26 @@ final class ComponentsController extends AbstractController
 
         return $this->json([
             'message' => 'Component has been created.'
+        ], 201);
+    }
+
+    #[Route('/api/components/delete/{id}', name: 'api_components_delete', methods: ['DELETE'])]
+    public function deleteComponents(
+        int $id,
+        EntityManagerInterface $em
+    ): Response
+    {
+        $component = $em->getRepository(Component::class)->find($id);
+
+        if (!$component) {
+            throw $this->createNotFoundException('Component does not exist.');
+        }
+
+        $em->remove($component);
+        $em->flush();
+
+        return $this->json([
+            'message' => 'Component has been deleted.'
         ], 201);
     }
 }

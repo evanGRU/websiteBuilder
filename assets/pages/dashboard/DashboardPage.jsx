@@ -6,7 +6,7 @@ import {DeleteIcon, EditIcon, MoreIcon} from "../../services/svg";
 import {toast} from "react-toastify";
 import api from "../../services/auth/api";
 import {AddEditModal} from "../../components/modals/addEditModal/AddEditModal";
-import {formatCreatedDate, formatUpdatedDate} from "../../services/formatFunctions";
+import {formatCreatedDate, formatUpdatedDate} from "../../services/functions/formatFunctions";
 import OpeningButton from "../../components/buttons/openingButton/OpeningButton";
 import {DeleteModal} from "../../components/modals/deleteModal/DeleteModal";
 import {useModalManager} from "../../services/useModalManager";
@@ -83,7 +83,7 @@ function DashboardPage() {
                     </thead>
                     <tbody>
                     {projectList && projectList.map((project) => (
-                        <tr>
+                        <tr key={"project" + project.id}>
                             <td className="table-column-name" onClick={() => {navigate('/builder/' + project.id)}}><div className="temp-img"></div>{project.name}</td>
                             <td className="table-column-default">{formatUpdatedDate(project.updatedAt)}</td>
                             <td className="table-column-default">{formatCreatedDate(project.createdAt)}</td>
@@ -117,6 +117,7 @@ function DashboardPage() {
                     <DeleteModal
                         setDisplayModal={setDisplayDeleteModal}
                         dataToDelete={projectToDelete}
+                        dataType={"project"}
                     />
                 }
             </div>

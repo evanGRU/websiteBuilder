@@ -8,26 +8,34 @@ export const projectStates = {
     finished: 'Terminé'
 }
 
-export const componentTypes = {
-    text: "text",
-    bloc: "div"
+export const toolboxTexts = {
+    menuProperties: {
+        bloc: {
+            name: "bloc",
+            addTitle: "Ajouter un bloc",
+            defaultValues: {
+            }
+        },
+        text: {
+            name: "text",
+            addTitle: "Ajouter un texte",
+            defaultValues: {
+                h1: "Titre",
+                h2: "Sous-titre",
+                p: "Paragraphe"
+            }
+        },
+        button: {
+            name: "button",
+            addTitle: "Ajouter un bouton",
+            defaultValues: {
+            }
+        },
+        image: {
+            name: "image",
+            addTitle: "Ajouter une image",
+            defaultValues: {
+            }
+        },
+    },
 }
-
-export const textOptions = [
-    {
-        value: "",
-        text: "Choisir un type de texte"
-    },
-    {
-        value: "h1",
-        text: "Titre"
-    },
-    {
-        value: "h2",
-        text: "Sous-titre"
-    },
-    {
-        value: "p",
-        text: "Paragraphe"
-    }
-]
