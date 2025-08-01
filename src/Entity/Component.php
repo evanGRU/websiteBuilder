@@ -22,6 +22,9 @@ class Component
     #[ORM\OneToOne(mappedBy: 'component', cascade: ['persist', 'remove'])]
     private ?ComponentContent $content = null;
 
+    #[ORM\OneToOne(mappedBy: 'component', cascade: ['persist', 'remove'])]
+    private ?Style $style = null;
+
     public function getId(): ?int { return $this->id; }
     public function getType(): ?string { return $this->type; }
     public function setType(string $type): static { $this->type = $type; return $this; }
@@ -33,6 +36,23 @@ class Component
     public function setContent(?ComponentContent $content): static
     {
         $this->content = $content;
+        return $this;
+    }
+
+    public function getStyle(): ?Style
+    {
+        return $this->style;
+    }
+
+    public function setStyle(Style $style): static
+    {
+        // set the owning side of the relation if necessary
+        if ($style->getComponent() !== $this) {
+            $style->setComponent($this);
+        }
+
+        $this->style = $style;
+
         return $this;
     }
 }
