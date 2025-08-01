@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Navbar from "../../components/navbar/Navbar";
 import './dashboardPage.scss';
 import {projectStates} from "../../services/params";
@@ -25,38 +25,33 @@ function DashboardPage() {
         setDisplayDeleteModal
     } = useModalManager();
 
-    const getProjectList = async () => {
+    const loadProjects = useCallback(async () => {
         try {
             const response = await api.get("/projects");
             setProjectList(response.data.member);
         } catch (error) {
-            toast.error(error.data)
+            toast.error(error?.response?.data?.message || "Erreur lors du chargement des projets.");
         }
-    }
+    }, []);
 
     useEffect(() => {
-        if (!displayDeleteModal){
-            getProjectList();
-            setProjectToDelete(null);
+        if (!displayAddEditModal || !displayDeleteModal) {
+            loadProjects();
         }
-    }, [displayDeleteModal]);
+
+        if (!displayAddEditModal) setProjectToEdit(null);
+        if (!displayDeleteModal) setProjectToDelete(null);
+    }, [displayAddEditModal, displayDeleteModal, loadProjects]);
 
     const handleEditProject = (project) => {
         setDisplayAddEditModal(true);
         setProjectToEdit(project);
-    }
+    };
 
     const handleDeleteProject = (project) => {
         setDisplayDeleteModal(true);
         setProjectToDelete(project.id);
-    }
-
-    useEffect(() => {
-        if (!displayAddEditModal){
-            setProjectToEdit(null);
-            getProjectList();
-        }
-    }, [displayAddEditModal]);
+    };
 
     return (
         <>
