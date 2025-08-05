@@ -25,14 +25,36 @@ class Component
     #[ORM\OneToOne(mappedBy: 'component', cascade: ['persist', 'remove'])]
     private ?Style $style = null;
 
-    public function getId(): ?int { return $this->id; }
-    public function getType(): ?string { return $this->type; }
-    public function setType(string $type): static { $this->type = $type; return $this; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getProject(): ?Project { return $this->project; }
-    public function setProject(?Project $project): static { $this->project = $project; return $this; }
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
 
-    public function getContent(): ?ComponentContent { return $this->content; }
+    public function setType(string $type): static
+    {
+        $this->type = $type; return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): static
+    {
+        $this->project = $project; return $this;
+    }
+
+    public function getContent(): ?ComponentContent
+    {
+        return $this->content;
+    }
+
     public function setContent(?ComponentContent $content): static
     {
         $this->content = $content;

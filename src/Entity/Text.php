@@ -12,7 +12,7 @@ class Text extends ComponentContent
     private ?string $tag = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $text = null;
+    private ?string $value = null;
 
     public function getTag(): ?string
     {
@@ -25,14 +25,14 @@ class Text extends ComponentContent
         return $this;
     }
 
-    public function getText(): ?string
+    public function getValue(): ?string
     {
-        return $this->text;
+        return $this->value;
     }
 
-    public function setText(?string $text): static
+    public function setValue(?string $value): static
     {
-        $this->text = $text;
+        $this->value = $value;
         return $this;
     }
 }

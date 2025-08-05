@@ -55,7 +55,8 @@ final class ProjectsController extends AbstractController
                 $contentData = [
                     'type' => 'text',
                     'tag' => $content->getTag(),
-                    'text' => $content->getText(),
+                    'value' => $content->getValue(),
+//                    'style' => $component->getStyle(),
                 ];
             } elseif ($content instanceof Div) {
                 $contentData = [

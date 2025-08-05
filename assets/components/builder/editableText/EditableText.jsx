@@ -6,7 +6,7 @@ const EditableText = ({ textComponent, setComponentToEdit }) => {
     const [isEditActive, setIsEditActive] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
 
-    const [value, setValue] = useState(textComponent.content.text);
+    const [value, setValue] = useState(textComponent.content.value);
     const ref = useRef(null);
 
     useClickOutsideHandler({
