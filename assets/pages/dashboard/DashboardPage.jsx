@@ -4,13 +4,13 @@ import './dashboardPage.scss';
 import {projectStates} from "../../services/params";
 import {DeleteIcon, EditIcon, MoreIcon} from "../../services/svg";
 import {toast} from "react-toastify";
-import api from "../../services/auth/api";
+import api from "../../services/api";
 import {AddEditModal} from "../../components/modals/addEditModal/AddEditModal";
 import {formatCreatedDate, formatUpdatedDate} from "../../services/functions/formatFunctions";
 import OpeningButton from "../../components/buttons/openingButton/OpeningButton";
 import {DeleteModal} from "../../components/modals/deleteModal/DeleteModal";
 import {useModalManager} from "../../services/useModalManager";
-import {useAuth} from "../../services/auth/AuthContext";
+import {useAuth} from "../../services/contexts/AuthContext";
 
 function DashboardPage() {
     const [projectList, setProjectList] = useState([]);

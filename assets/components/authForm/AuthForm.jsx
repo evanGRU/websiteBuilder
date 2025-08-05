@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import './authForm.scss';
-import {useAuth} from "../../services/auth/AuthContext";
+import {useAuth} from "../../services/contexts/AuthContext";
 import {AppleLogo, GoogleLogo, HiddenIcon, VisibleIcon} from "../../services/svg";
 import {authMethod} from "../../services/params";
 import {toast} from "react-toastify";

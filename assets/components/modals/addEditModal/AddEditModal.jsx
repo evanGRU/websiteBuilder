@@ -1,7 +1,7 @@
 import './addEditModal.scss';
 import React, {useEffect, useMemo, useState} from "react";
 import {toast} from "react-toastify";
-import api from "../../../services/auth/api";
+import api from "../../../services/api";
 import {DefaultModalContainer} from "../defaultModalContainer/DefaultModalContainer";
 import {projectStates} from "../../../services/params";
 

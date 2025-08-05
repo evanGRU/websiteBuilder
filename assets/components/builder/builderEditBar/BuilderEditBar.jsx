@@ -2,7 +2,7 @@ import React from 'react';
 import './builderEditBar.scss';
 import {DeleteIcon, FontBGColorIcon, FontColorIcon, FontIcon, FontSizeIcon} from "../../../services/svg";
 import {FontSizeSelector} from "../../inputs/fontSizeSelector/FontSizeSelector";
-import api from "../../../services/auth/api";
+import api from "../../../services/api";
 import {toast} from "react-toastify";
 import {ColorPicker} from "../../inputs/colorPicker/ColorPicker";
 

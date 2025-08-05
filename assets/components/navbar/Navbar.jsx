@@ -2,7 +2,7 @@ import './navbar.scss';
 import React from "react";
 import {AccountIcon, Logo, LogOutIcon, WebsitesIcon} from "../../services/svg";
 import LoginButton from "../buttons/login/LoginButton";
-import {useAuth} from "../../services/auth/AuthContext";
+import {useAuth} from "../../services/contexts/AuthContext";
 import OpeningButton from "../buttons/openingButton/OpeningButton";
 
 
