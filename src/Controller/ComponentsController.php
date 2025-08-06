@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Component;
+use App\Entity\CssProperty;
 use App\Entity\Project;
+use App\Entity\Style;
 use App\Entity\Text;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,12 +28,24 @@ final class ComponentsController extends AbstractController
         $newComponent->setType($data['type']);
         $newComponent->setProject($project);
 
+        foreach ($data['styles'] as $styleObject) {
+            $property = $em->getRepository(CssProperty::class)->findOneBy(['code' => $styleObject['property']['code']]);
+
+            $newStyle = new Style();
+            $newStyle->setProperty($property);
+            $newStyle->setComponent($newComponent);
+            $newStyle->setValue($styleObject['value']);
+
+            $newComponent->addStyle($newStyle);
+        }
+
+
         $newContent = [];
         switch ($data['type']) {
             case "text":
                 $newContent = new Text();
-                $newContent->setTag($data['component']['tag']);
-                $newContent->setText($data['component']['text']);
+                $newContent->setTag($data['content']['tag']);
+                $newContent->setValue($data['content']['value']);
                 break;
             default:
                 break;

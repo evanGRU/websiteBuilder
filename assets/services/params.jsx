@@ -39,3 +39,11 @@ export const toolboxTexts = {
         },
     },
 }
+
+export const componentStyles = {
+    fontSize: {
+        h1: '32px',
+        h2: '24px',
+        p: '16px'
+    }
+}

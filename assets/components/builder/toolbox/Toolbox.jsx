@@ -7,7 +7,6 @@ import {toolboxTexts} from "../../../services/params";
 import {useClickOutsideHandler} from "../../../services/functions/globalFunctions";
 
 const Toolbox = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [sectionData, setSectionData] = useState(null);
     const ref = useRef(null);
 
@@ -16,7 +15,6 @@ const Toolbox = () => {
         const isSameItem = sectionData?.name === clickedMenuItem.name;
 
         if (!sectionData || isSameItem) {
-            setIsMenuOpen((prev) => !prev);
             setSectionData(isSameItem ? null : clickedMenuItem);
         } else {
             setSectionData(clickedMenuItem);
@@ -26,12 +24,10 @@ const Toolbox = () => {
     useClickOutsideHandler({
         ref,
         settersArray: [
-            { setFunction: setIsMenuOpen, defaultValue: false },
             { setFunction: setSectionData, defaultValue: null },
         ],
-        condition: isMenuOpen || sectionData,
+        condition: sectionData,
     });
-
 
     return (
         <div className={"toolbox-container"} ref={ref}>
@@ -44,11 +40,10 @@ const Toolbox = () => {
                 sectionData={sectionData}
             />
 
-            {isMenuOpen && (
-                <ToolboxSection
-                    sectionData={sectionData}
-                />
-            )}
+            <ToolboxSection
+                sectionData={sectionData}
+                setSectionData={setSectionData}
+            />
         </div>
     );
 };

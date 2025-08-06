@@ -7,7 +7,6 @@
     height: 100%;
     z-index: 9999;
     box-shadow: 2px 0 20px 0 rgba(0, 0, 0, 0.1);
-    animation: openSection 200ms ease;
 
     .toolbox-header-black {
         background-color: var(--main);
@@ -24,38 +23,108 @@
             font-weight: 500;
             border-bottom: 1px solid var(--main);
         }
+
         ul {
             list-style: none;
+
+            li {
+                position: relative;
+
+                h1 {
+                    font-size: 32px;
+                }
+                h2 {
+                    font-size: 24px;
+                }
+                p {
+                    font-size: 16px;
+                }
+
+                .new-comp-btn-bg {
+                    touch-action: none;
+                    user-select: none;
+                    height: 40px;
+                    margin: 5px 0;
+                    color: var(--text-black);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .new-comp-btn-drag {
+                    border-radius: 5px;
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    z-index: 2000;
+                    left: 0;
+                    top: 0;
+
+                    &:hover {
+                        cursor: pointer !important;
+                    }
+
+                    &:active {
+                        background-color: rgba(117, 186, 237, 0.5);
+                        border: 1px dashed var(--main-blue);
+                    }
+                }
+
+                &:hover {
+                    background-color: var(--light-gray-hover);
+                }
+            }
         }
     }
-
-    @keyframes openSection{
-        from {
-            width: 0;
-            overflow: hidden;
-        }
-        to {
-            width: 250px;
-            overflow: visible;
-        }
-    }
-
 }
 
-.draggable-button-new-component {
-    touch-action: none;
-    user-select: none;
-    height: 50px;
-    color: var(--text-black);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
-    &:hover {
-        cursor: pointer !important;
-        background-color: #E1E5EA;
+.show-toolbox {
+    animation: openSection 200ms ease;
+}
+
+
+.hide-toolbox {
+    animation: closeSection 200ms ease;
+    width: 0;
+
+    .toolbox-section-title {
+        visibility: hidden;
     }
-    &:active {
-        cursor: move !important;
+
+    li{
+        &:hover {
+            background-color: transparent !important;
+        }
+
+        &:active {
+            background-color: transparent !important;
+        }
+    }
+
+    .new-comp-btn-bg {
+        visibility: hidden;
+    }
+}
+
+
+
+@keyframes openSection{
+    from {
+        width: 0;
+        overflow: hidden;
+    }
+    to {
+        width: 250px;
+        overflow: visible;
+    }
+}
+
+@keyframes closeSection{
+    from {
+        width: 250px;
+    }
+    to {
+        width: 0;
     }
 }
