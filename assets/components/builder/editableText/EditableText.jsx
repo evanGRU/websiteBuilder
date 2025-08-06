@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import './editableText.scss';
 import {useClickOutsideHandler} from "../../../services/functions/globalFunctions";
 
-const EditableText = ({ textComponent, setComponentToEdit }) => {
+const EditableText = ({ textComponent, setComponentToEdit, style }) => {
     const [isEditActive, setIsEditActive] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
 
@@ -50,6 +50,7 @@ const EditableText = ({ textComponent, setComponentToEdit }) => {
             className={`editable ${isEditActive ? "edit-active draggable" : ""}`}
             onDoubleClick={handleDoubleClick}
             onClick={handleClick}
+            style={style}
         >
             {value}
         </Tag>

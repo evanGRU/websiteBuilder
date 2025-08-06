@@ -17,11 +17,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['project:list'])]
+    #[Groups(['project:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['project:list'])]
+    #[Groups(['project:read'])]
     private ?string $email = null;
 
     /**
@@ -183,7 +183,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    #[Groups(['project:list'])]
+    #[Groups(['project:read'])]
     public function getFullName(): string
     {
         return $this->getFirstname() . ' ' . $this->getName();

@@ -6,6 +6,7 @@ use App\Repository\CssPropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CssPropertyRepository::class)]
 class CssProperty
@@ -19,7 +20,8 @@ class CssProperty
     private ?string $code = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $property = null;
+    #[Groups(['project:components:read'])]
+    private ?string $name = null;
 
     /**
      * @var Collection<int, Style>
@@ -49,14 +51,14 @@ class CssProperty
         return $this;
     }
 
-    public function getProperty(): ?string
+    public function getName(): ?string
     {
-        return $this->property;
+        return $this->name;
     }
 
-    public function setProperty(string $property): static
+    public function setName(string $name): static
     {
-        $this->property = $property;
+        $this->name = $name;
 
         return $this;
     }

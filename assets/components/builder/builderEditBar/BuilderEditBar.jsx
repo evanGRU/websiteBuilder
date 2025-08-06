@@ -6,14 +6,17 @@ import api from "../../../services/api";
 import {toast} from "react-toastify";
 import {ColorPicker} from "../../inputs/colorPicker/ColorPicker";
 
-const BuilderEditBar = ({componentToEdit, setComponentToEdit, setProjectComponents}) => {
+const BuilderEditBar = ({componentToEdit, setComponentToEdit, setProject}) => {
 
     const handleDeleteComponent = async () => {
         try {
             const response = await api.delete(`/components/delete/${componentToEdit.id}`);
-            setProjectComponents(prev =>
-                prev.filter(component => component.id !== componentToEdit.id)
-            );
+            setProject(prev => ({
+                ...prev,
+                components: prev.components.filter(
+                    component => component.id !== componentToEdit.id
+                )
+            }));
             setComponentToEdit(null);
         } catch (error) {
             toast.error(error?.response?.data?.message || "Erreur lors du chargement.");
@@ -26,11 +29,6 @@ const BuilderEditBar = ({componentToEdit, setComponentToEdit, setProjectComponen
                 {
                     componentToEdit.type === "text" && (
                         <>
-                            {/*font*/}
-                            {/*fontsize*/}
-                            {/*color*/}
-                            {/*bg-color*/}
-                            {/*text-decoration*/}
                             <div className="edit-bar-inputs-container">
                                 <div className="edit-bar-input">
                                     <FontIcon/>

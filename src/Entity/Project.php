@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +14,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['project:list']],
+    operations: [
+        new GetCollection(),
+        new Get(
+            normalizationContext: ['groups' => ['project:components:read']]
+        ),
+        new Delete(),
+    ],
+    normalizationContext: ['groups' => ['project:read']],
     denormalizationContext: ['groups' => ['project:write']],
     order: ['updatedAt' => 'DESC']
 )]
@@ -22,34 +32,44 @@ class Project
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['project:list'])]
+    #[Groups([
+        'project:read',
+        'project:components:read',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['project:list', 'project:write'])]
+    #[Groups([
+        'project:read',
+        'project:write'
+    ])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['project:list'])]
+    #[Groups(['project:read'])]
     private ?User $createdBy = null;
 
     #[ORM\Column]
-    #[Groups(['project:list'])]
+    #[Groups(['project:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    #[Groups(['project:list'])]
+    #[Groups(['project:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['project:list', 'project:write'])]
+    #[Groups([
+        'project:read',
+        'project:write'
+    ])]
     private ?string $state = null;
 
     /**
      * @var Collection<int, Component>
      */
     #[ORM\OneToMany(targetEntity: Component::class, mappedBy: 'project', orphanRemoval: true)]
+    #[Groups(['project:components:read'])]
     private Collection $components;
 
     public function __construct()
