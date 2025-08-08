@@ -4,6 +4,8 @@
     background-color: var(--light-gray);
     position: fixed;
     z-index: 10;
+    overflow: hidden;
+    animation: showOverflow 0s linear 0.2s forwards;
 
     .toolbox-header {
         padding: 1em 0;
@@ -22,5 +24,11 @@
                 transform: translateX(-1px);
             }
         }
+    }
+}
+
+@keyframes showOverflow {
+    to {
+        overflow: visible;
     }
 }

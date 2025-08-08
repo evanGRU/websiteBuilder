@@ -6,7 +6,7 @@
     width: 250px;
     height: 100%;
     z-index: 9999;
-    box-shadow: 2px 0 20px 0 rgba(0, 0, 0, 0.1);
+    animation: showBoxShadow 0s linear 0.2s forwards;
 
     .toolbox-header-black {
         background-color: var(--main);
@@ -85,8 +85,7 @@
 
 
 .hide-toolbox {
-    animation: closeSection 200ms ease;
-    width: 0;
+    animation: closeSection 200ms ease forwards;
 
     .toolbox-section-title {
         visibility: hidden;
@@ -107,7 +106,11 @@
     }
 }
 
-
+@keyframes showBoxShadow {
+    to {
+        box-shadow: 2px 0 20px 0 rgba(0, 0, 0, 0.1);
+    }
+}
 
 @keyframes openSection{
     from {
