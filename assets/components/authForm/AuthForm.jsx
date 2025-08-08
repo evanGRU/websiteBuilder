@@ -8,6 +8,7 @@ import {toast} from "react-toastify";
 
 function AuthForm() {
     const [currentAuthMethod, setCurrentAuthMethod] = useState(authMethod.login);
+    const [isAuthLoading, setIsAuthLoading] = useState(false);
 
     const [showPassword, setShowPassword] = useState({});
     const [formData, setFormData] = useState({});
@@ -16,6 +17,7 @@ function AuthForm() {
 
     async function handleSubmit(event) {
         event.preventDefault();
+        setIsAuthLoading(true);
 
         try {
             if (currentAuthMethod === authMethod.login) {
@@ -29,6 +31,7 @@ function AuthForm() {
             }
         } catch (error) {
             toast.error("Une erreur s'est produite, veuillez réessayer.");
+            setIsAuthLoading(false);
         }
     }
 
@@ -201,7 +204,11 @@ function AuthForm() {
                 }
 
                 <div className="auth-buttons-container">
-                    <button type="submit" className="button-main auth-submit-button">
+                    <button
+                        type="submit"
+                        className={`button-main auth-submit-button ${isAuthLoading ? 'auth-btn-disable' : ''}`}
+                        disabled={isAuthLoading}
+                    >
                         {currentAuthMethod === authMethod.login ? 'Se connecter' : 'S\'inscrire'}
                     </button>
 
