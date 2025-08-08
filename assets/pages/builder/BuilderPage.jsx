@@ -6,6 +6,7 @@ import "./builderPage.scss";
 import Toolbox from "../../components/builder/toolbox/Toolbox";
 import ContentArea from "../../components/builder/contentArea/ContentArea";
 import {InteractProvider} from "../../services/contexts/InteractContext";
+import Loader from "../../components/loader/Loader";
 
 function BuilderPage() {
     const { id } = useParams();
@@ -21,8 +22,7 @@ function BuilderPage() {
             try {
                 const response = await api.get(`/projects/${id}`);
                 setProject(response.data);
-                setHasComponentsLoaded(true);
-
+                setTimeout(() => setHasComponentsLoaded(true), 500);
             } catch (error) {
                 toast.error(error?.response?.data?.message || "Erreur lors du chargement.");
             }
@@ -41,7 +41,7 @@ function BuilderPage() {
                 />
             </div>
         </InteractProvider>
-    ) : <h1>Chargement...</h1>
+    ) : <Loader fullScreen={true}/>
 }
 
 export default BuilderPage;
