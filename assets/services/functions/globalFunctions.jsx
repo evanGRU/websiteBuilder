@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import {defaultComponentStylesValues} from "../params";
 
 export const useClickOutsideHandler = ({ref, settersArray = [], condition = true}) => {
     useEffect(() => {
@@ -38,12 +39,12 @@ export const formatComponentStyle = (component) => {
 
     return {
         font: {
-            family: stylesMap.fontFamily || "Inter",
-            style: stylesMap.fontStyle || "regular",
-            size: stylesMap.fontSize ? parseInt(stylesMap.fontSize, 10) : 12,
-            textAlign: stylesMap.textAlign || "left"
+            family: stylesMap.fontFamily || defaultComponentStylesValues.fontFamily,
+            style: stylesMap.fontStyle || defaultComponentStylesValues.fontStyle,
+            size: stylesMap.fontSize ? parseInt(stylesMap.fontSize, 10) : defaultComponentStylesValues.fontSize,
+            textAlign: stylesMap.textAlign || defaultComponentStylesValues.textAlign
         },
-        color: stylesMap.color || "#000000",
-        backgroundColor: stylesMap.backgroundColor || "transparent"
+        color: stylesMap.color || defaultComponentStylesValues.color,
+        backgroundColor: stylesMap.backgroundColor || defaultComponentStylesValues.backgroundColor
     };
 }

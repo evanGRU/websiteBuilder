@@ -54,8 +54,10 @@ export const componentStyles = {
 export const defaultComponentStylesValues = {
     fontFamily: 'Inter',
     fontStyle: 'regular',
+    fontSize: '12',
     textAlign: 'left',
-    color: "#000000"
+    color: "#000000",
+    backgroundColor: "transparent"
 }
 
 export const fontSizeDefaultValues = [10, 11, 12, 13, 14, 15, 16, 20, 24, 32, 36, 40, 48, 64, 96, 128];
