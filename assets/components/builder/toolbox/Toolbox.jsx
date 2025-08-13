@@ -1,10 +1,9 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './toolbox.scss';
 import {BackIcon} from "../../../services/svg";
 import ToolboxMenu from "../toolboxMenu/ToolboxMenu";
 import ToolboxSection from "../toolboxSection/ToolboxSection";
 import {toolboxTexts} from "../../../services/params";
-import {useClickOutsideHandler} from "../../../services/functions/globalFunctions";
 
 const Toolbox = () => {
     const [sectionData, setSectionData] = useState(null);
@@ -21,13 +20,18 @@ const Toolbox = () => {
         }
     };
 
-    useClickOutsideHandler({
-        ref,
-        settersArray: [
-            { setFunction: setSectionData, defaultValue: null },
-        ],
-        condition: sectionData,
-    });
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setSectionData(null);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className={"toolbox-container"} ref={ref}>

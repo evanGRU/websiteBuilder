@@ -6,6 +6,13 @@
     }
 }
 
+.edit-input {
+    background-color: transparent;
+    border: none;
+    outline: 1px dashed var(--main-blue);
+    user-select: all;
+}
+
 .edit-active {
     width: max-content;
     outline: 1px dashed var(--main-blue);

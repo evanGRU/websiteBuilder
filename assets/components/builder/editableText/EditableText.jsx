@@ -1,44 +1,54 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './editableText.scss';
-import {useClickOutsideHandler} from "../../../services/functions/globalFunctions";
+import { useGoogleFonts } from '../../../services/contexts/GoogleFontsContext';
+import { useSelection } from '../../../services/contexts/SelectionContext';
 
-const EditableText = ({ textComponent, setComponentToEdit, style }) => {
-    const [isEditActive, setIsEditActive] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-
+const EditableText = ({ textComponent, style }) => {
     const [value, setValue] = useState(textComponent.content.value);
     const ref = useRef(null);
 
-    useClickOutsideHandler({
-        ref,
-        settersArray: [
-            { setFunction: setIsEditActive, defaultValue: false },
-            { setFunction: setIsEditing, defaultValue: false },
-            { setFunction: setComponentToEdit, defaultValue: null },
-        ],
-        condition: isEditActive || isEditing,
-    })
+    const { loadFontIfNeeded } = useGoogleFonts();
+    const {
+        componentToEdit,
+        setComponentToEdit,
+        isEditing,
+        setIsEditing,
+    } = useSelection();
+
+    const isActive = componentToEdit?.id === textComponent.id;
+    const isThisEditing = isEditing && isActive;
+
+    useEffect(() => {
+        if (style.fontFamily) {
+            loadFontIfNeeded(style);
+        }
+    }, [loadFontIfNeeded, style]);
 
     const handleClick = () => {
-        !isEditActive && setIsEditActive(true);
-        setComponentToEdit(textComponent);
+        if (!isActive) {
+            setComponentToEdit(textComponent);
+        }
     };
 
     const handleDoubleClick = () => {
+        setComponentToEdit(textComponent);
         setIsEditing(true);
     };
 
     const handleChange = (e) => setValue(e.target.value);
 
-    if (isEditing) {
+    if (isThisEditing) {
         return (
             <input
                 ref={ref}
+                data-selectable
                 type="text"
                 value={value}
                 autoFocus
                 onChange={handleChange}
                 className="edit-input"
+                style={style}
+                onFocus={(e) => e.target.select()}
             />
         );
     }
@@ -47,9 +57,10 @@ const EditableText = ({ textComponent, setComponentToEdit, style }) => {
     return (
         <Tag
             ref={ref}
-            className={`editable ${isEditActive ? "edit-active draggable" : ""}`}
-            onDoubleClick={handleDoubleClick}
+            data-selectable
+            className={`editable ${isActive ? 'edit-active draggable' : ''}`}
             onClick={handleClick}
+            onDoubleClick={handleDoubleClick}
             style={style}
         >
             {value}

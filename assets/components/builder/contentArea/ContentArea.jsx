@@ -6,6 +6,8 @@ import interact from "interactjs";
 import {useInteract} from "../../../services/contexts/InteractContext";
 import {toast} from "react-toastify";
 import api from "../../../services/api";
+import {transformArrayToObject} from "../../../services/functions/globalFunctions";
+import {SelectionProvider} from "../../../services/contexts/SelectionContext";
 
 const ContentArea = ({project, setProject, componentToEdit, setComponentToEdit}) => {
     const { componentDataToAdd } = useInteract();
@@ -24,7 +26,7 @@ const ContentArea = ({project, setProject, componentToEdit, setComponentToEdit})
                         ...prev,
                         components: [
                             ...prev.components,
-                            componentDataRef.current
+                            response.data
                         ]
                     }
                 ));
@@ -35,7 +37,7 @@ const ContentArea = ({project, setProject, componentToEdit, setComponentToEdit})
 
         interact('#global-dropzone').dropzone({
             accept: '.new-comp-btn-drag',
-            ondrop(event) {
+            ondrop() {
                 handleSubmit();
             }
         });
@@ -62,29 +64,25 @@ const ContentArea = ({project, setProject, componentToEdit, setComponentToEdit})
 
     return (
         <div className="builder-content" id="global-dropzone">
-            {project.components.map((component) => {
-                if (component.type === toolboxTexts.menuProperties.text.name) {
-                    const inlineStyles = getStyles(component.styles);
-                    return (
-                        <EditableText
-                            key={component.id}
-                            textComponent={component}
-                            onChange={(newText) => handleTextChange(component.id, newText)}
-                            setComponentToEdit={setComponentToEdit}
-                            style={inlineStyles}
-                        />
-                    );
-                }
-            })}
-
-            {componentToEdit &&
-                <BuilderEditBar
-                    componentToEdit={componentToEdit}
-                    setComponentToEdit={setComponentToEdit}
-                    project={project}
-                    setProject={setProject}
-                />
-            }
+            <SelectionProvider
+                componentToEdit={componentToEdit}
+                setComponentToEdit={setComponentToEdit}
+                handleDeleteComponent={handleDeleteComponent}
+            >
+                {project.components.map((component) => {
+                    if (component.type === toolboxTexts.menuProperties.text.name) {
+                        const inlineStyles = transformArrayToObject(component.styles, ['property', 'code'], 'value');
+                        return (
+                            <EditableText
+                                key={component.id}
+                                textComponent={component}
+                                // onChange={(newText) => handleTextChange(component.id, newText)}
+                                style={inlineStyles}
+                            />
+                        );
+                    }
+                })}
+            </SelectionProvider>
         </div>
     );
 };
