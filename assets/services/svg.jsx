@@ -295,3 +295,70 @@ export const FontBGColorIcon = () => {
     )
 }
 
+export const ArrowIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M10 12.8333L5 7.83332L6.16667 6.66666L10 10.5L13.8333 6.66666L15 7.83332L10 12.8333Z"
+                fill="currentColor"
+            />
+        </svg>
+    )
+}
+
+export const AlignLeftIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M14.1667 8.33333H2.5M17.5 5H2.5M17.5 11.6667H2.5M14.1667 15H2.5"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
+export const AlignRightIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M17.5 8.33333H5.83333M17.5 5H2.5M17.5 11.6667H2.5M17.5 15H5.83333"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
+export const AlignCenterIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M15 8.33333H5M17.5 5H2.5M17.5 11.6667H2.5M15 15H5"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
+export const AlignJustifyIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M17.5 8.33333H2.5M17.5 5H2.5M17.5 11.6667H2.5M17.5 15H2.5"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+

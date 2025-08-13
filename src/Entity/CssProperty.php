@@ -17,11 +17,11 @@ class CssProperty
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['project:components:read'])]
+    #[Groups(['project:components:read', 'style:read'])]
     private ?string $code = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['project:components:read'])]
+    #[Groups(['project:components:read', 'style:read'])]
     private ?string $name = null;
 
     /**

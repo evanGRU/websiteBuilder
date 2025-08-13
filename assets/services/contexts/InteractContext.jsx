@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useState} from "react";
-import {componentStyles, toolboxTexts} from "../params";
+import {componentStyles, defaultComponentStylesValues, toolboxTexts} from "../params";
 
 const InteractContext = createContext();
 
@@ -20,9 +20,33 @@ export function InteractProvider({ children }) {
             styles: [
                 {
                     property: {
+                        code : 'fontFamily'
+                    },
+                    value: defaultComponentStylesValues.fontFamily
+                },
+                {
+                    property: {
+                        code : 'fontStyle'
+                    },
+                    value: defaultComponentStylesValues.fontStyle
+                },
+                {
+                    property: {
                         code : 'fontSize'
                     },
                     value: componentStyles.fontSize[tagKey]
+                },
+                {
+                    property: {
+                        code : 'textAlign'
+                    },
+                    value: defaultComponentStylesValues.textAlign
+                },
+                {
+                    property: {
+                        code : 'color'
+                    },
+                    value: '#000000'
                 }
             ]
         })

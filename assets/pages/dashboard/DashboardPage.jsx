@@ -31,7 +31,7 @@ function DashboardPage() {
         try {
             const response = await api.get("/projects");
             setProjectList(response.data.member);
-            setTimeout(() => setHasProjectsLoaded(true), 500);
+            setHasProjectsLoaded(true);
         } catch (error) {
             toast.error(error?.response?.data?.message || "Erreur lors du chargement des projets.");
         }

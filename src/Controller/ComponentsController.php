@@ -57,9 +57,9 @@ final class ComponentsController extends AbstractController
         $em->persist($newComponent);
         $em->flush();
 
-        return $this->json([
-            'message' => 'Component has been created.'
-        ], 201);
+        return $this->json($newComponent, 201, [], [
+            'groups' => ['project:components:read']
+        ]);
     }
 
     #[Route('/api/components/delete/{id}', name: 'api_components_delete', methods: ['DELETE'])]

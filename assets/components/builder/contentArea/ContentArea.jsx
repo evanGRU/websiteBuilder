@@ -1,16 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import './contentArea.scss';
 import EditableText from "../editableText/EditableText";
-import BuilderEditBar from "../builderEditBar/BuilderEditBar";
 import {toolboxTexts} from "../../../services/params";
 import interact from "interactjs";
 import {useInteract} from "../../../services/contexts/InteractContext";
 import {toast} from "react-toastify";
 import api from "../../../services/api";
 
-const ContentArea = ({project, setProject}) => {
-    const [componentToEdit, setComponentToEdit] = useState(null);
-
+const ContentArea = ({project, setProject, componentToEdit, setComponentToEdit}) => {
     const { componentDataToAdd } = useInteract();
     const componentDataRef = useRef(componentDataToAdd);
 
@@ -31,7 +28,6 @@ const ContentArea = ({project, setProject}) => {
                         ]
                     }
                 ));
-                toast.success('Votre composant a été créé avec succès.');
             } catch (e) {
                 toast.error('Une erreur s\'est produite.');
             }
@@ -49,11 +45,19 @@ const ContentArea = ({project, setProject}) => {
         };
     }, []);
 
-    const getStyles = (stylesArray) => {
-        return stylesArray.reduce((result, style) => {
-            result[style.property.code] = style.value;
-            return result;
-        }, {});
+    const handleDeleteComponent = async (componentToEdit) => {
+        try {
+            const response = await api.delete(`/components/delete/${componentToEdit.id}`);
+            setProject(prev => ({
+                ...prev,
+                components: prev.components.filter(
+                    component => component.id !== componentToEdit.id
+                )
+            }));
+            setComponentToEdit(null);
+        } catch (error) {
+            toast.error(error?.response?.data?.message || "Erreur lors du chargement.");
+        }
     }
 
     return (

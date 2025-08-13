@@ -6,7 +6,6 @@
     width: 250px;
     height: 100%;
     z-index: 9999;
-    animation: showBoxShadow 0s linear 0.2s forwards;
 
     .toolbox-header-black {
         background-color: var(--main);
@@ -78,9 +77,9 @@
     }
 }
 
-
 .show-toolbox {
     animation: openSection 200ms ease;
+    box-shadow: 2px 0 20px 0 rgba(0, 0, 0, 0.1);
 }
 
 
@@ -103,12 +102,6 @@
 
     .new-comp-btn-bg {
         visibility: hidden;
-    }
-}
-
-@keyframes showBoxShadow {
-    to {
-        box-shadow: 2px 0 20px 0 rgba(0, 0, 0, 0.1);
     }
 }
 

@@ -41,7 +41,8 @@ class Project
     #[ORM\Column(length: 255)]
     #[Groups([
         'project:read',
-        'project:write'
+        'project:write',
+        'project:components:read',
     ])]
     private ?string $name = null;
 

@@ -2,25 +2,31 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\StyleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: StyleRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['style:read']],
+    denormalizationContext: ['groups' => ['style:write']]
+)]
 class Style
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['project:components:read', 'style:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'styles')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['project:components:read'])]
+    #[Groups(['project:components:read', 'style:read'])]
     private ?CssProperty $property = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['project:components:read'])]
+    #[Groups(['project:components:read', 'style:write', 'style:read'])]
     private ?string $value = null;
 
     #[ORM\ManyToOne(inversedBy: 'styles')]
