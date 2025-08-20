@@ -1,29 +1,29 @@
-// SelectionContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const SelectionContext = createContext();
 
-export const SelectionProvider = ({ children, componentToEdit, setComponentToEdit, handleDeleteComponent }) => {
+export const SelectionProvider = ({ children, componentToEdit, setComponentToEdit, handleDeleteComponent, hasComponentChanged, handleSaveComponentChanges }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            const container = document.querySelector('.content-container');
+        const handleClickOutside = async (event) => {
+            const container = document.querySelector(".content-container");
+            if (!container || !container.contains(event.target)) return;
 
-            if (!container || !container.contains(event.target)) {
-                return;
+            const clickedSelectable = event.target.closest("[data-selectable]");
+            if (clickedSelectable) return;
+
+            if (hasComponentChanged) {
+                await handleSaveComponentChanges();
             }
 
-            const clickedSelectable = event.target.closest('[data-selectable]');
-            if (!clickedSelectable) {
-                setComponentToEdit(null);
-                setIsEditing(false);
-            }
+            setComponentToEdit(null);
+            setIsEditing(false);
         };
 
         document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', handleClickOutside);
-    }, []);
+    }, [hasComponentChanged, componentToEdit]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {

@@ -1,24 +1,4 @@
-import { useEffect } from "react";
 import {defaultComponentStylesValues} from "../params";
-
-export const useClickOutsideHandler = ({ref, settersArray = [], condition = true}) => {
-    useEffect(() => {
-        if (!condition) return;
-
-        const handleClickOutside = (event) => {
-            if (ref.current && !ref.current.contains(event.target) && !event.target.closest('.builder-edit-bar')) {
-                settersArray.forEach((setter) => {
-                    setter.setFunction(setter.defaultValue);
-                });
-            }
-        };
-
-        document.addEventListener("click", handleClickOutside);
-        return () => {
-            document.removeEventListener("click", handleClickOutside);
-        };
-    }, [ref, settersArray, condition]);
-};
 
 export const transformArrayToObject = (array, keys, valueKey) => {
     return array.reduce((result, item) => {
@@ -40,11 +20,17 @@ export const formatComponentStyle = (component) => {
     return {
         font: {
             family: stylesMap.fontFamily || defaultComponentStylesValues.fontFamily,
-            style: stylesMap.fontStyle || defaultComponentStylesValues.fontStyle,
-            size: stylesMap.fontSize ? parseInt(stylesMap.fontSize, 10) : defaultComponentStylesValues.fontSize,
+            fontStyle: stylesMap.fontStyle || defaultComponentStylesValues.fontStyle,
+            fontWeight: stylesMap.fontWeight || defaultComponentStylesValues.fontWeight,
+            fontSize: stylesMap.fontSize ? parseInt(stylesMap.fontSize, 10) : defaultComponentStylesValues.fontSize,
             textAlign: stylesMap.textAlign || defaultComponentStylesValues.textAlign
         },
         color: stylesMap.color || defaultComponentStylesValues.color,
         backgroundColor: stylesMap.backgroundColor || defaultComponentStylesValues.backgroundColor
     };
 }
+
+export const parseFontStyle = (str) => {
+    const match = str.match(/^(\d+)([a-zA-Z]+)$/);
+    return match ? [match[1], match[2]] : [str, ""];
+};

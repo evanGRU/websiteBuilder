@@ -1,153 +1,137 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './typographyInputs.scss';
 import {ArrowIcon} from "../../../services/svg";
 import GoogleFontsModal from "../../modals/googleFontsModal/GoogleFontsModal";
-import {alignObjects, fontSizeDefaultValues, fontStyleValues, selectorTypes} from "../../../services/params";
+import {alignObjects, fontSizeDefaultValues, fontStyleValues} from "../../../services/params";
 import {useGoogleFonts} from "../../../services/contexts/GoogleFontsContext";
+import {useComponentsManager} from "../../../services/contexts/ComponentsManagerContext";
 
 
 const TypographyInputs = ({componentFontStyles}) => {
     const [displayFontModal, setDisplayFontModal] = useState(false);
     const [selectorsStates, setSelectorsStates] = useState({
-        style: false,
-        size: false
+        fontStyle: false,
+        fontSize: false
     });
-    const [rawFont, setRawFont] = useState({});
-    const [newFontStyles, setNewFontStyles] = useState({});
+
     const [tempFontFamily, setTempFontFamily] = useState(null);
 
     const { fontsList } = useGoogleFonts();
+    const {handleChangeComponent,} = useComponentsManager();
 
-    useEffect(() => {
-        if (!fontsList.length) return;
+    const rawFont = fontsList.find(f => f.family === componentFontStyles.family);
 
-        const initialFontStyles = { ...componentFontStyles };
-        const raw = fontsList.find((font) => font.family === initialFontStyles.family);
-
-        setNewFontStyles(initialFontStyles);
-        setRawFont(raw);
-    }, [fontsList, componentFontStyles]);
-
-    const handleOpenSelector = (selectorType) => {
-        setSelectorsStates(prev => ({
-            ...prev,
-            [selectorType]: true
-        }));
-    }
-    const handleChangeSelector = (selectorType, newValue) => {
-        setNewFontStyles(prev => ({
-            ...prev,
-            [selectorType]: newValue
-        }));
-        setSelectorsStates(prev => ({
-            ...prev,
-            [selectorType]: false
-        }));
+    const getFontStyleValue = () => {
+        switch (componentFontStyles.fontStyle) {
+            case 'normal':
+                if (componentFontStyles.fontWeight === '400') {
+                    return 'regular';
+                } else {
+                    return componentFontStyles.fontWeight;
+                }
+            case 'italic':
+                if (componentFontStyles.fontWeight === '400') {
+                    return 'italic';
+                } else {
+                    return componentFontStyles.fontWeight + 'italic';
+                }
+        }
     }
 
-    const handleCloseModal = () => {
+    const handleOpenSelector = (selectorType) =>
+        setSelectorsStates(prev => ({...prev, [selectorType]: true}));
+
+    const handleCloseModal = () => setDisplayFontModal(false);
+
+    const handleChangeFont = font => {
+        setTempFontFamily(font);
+        handleChangeComponent("fontFamily", font.family);
         setDisplayFontModal(false);
-    }
+    };
 
-    const handleSubmit = (font) => {
-        setNewFontStyles(prev => ({
-            ...prev,
-            family: font.family,
-            style: font.variants.find(v => v === newFontStyles.style) || font.variants.find(v => v === "regular")  || font.variants[0]
-        }));
-        setRawFont(tempFontFamily);
+    const updateFontStyle = (prop, value) => {
+        handleChangeComponent(prop, value);
+    };
 
-        setDisplayFontModal(false);
-    }
+    const handleChangeSelector = (selectorType, value) => {
+        updateFontStyle(selectorType, value);
+        setSelectorsStates(prev => ({ ...prev, [selectorType]: false }));
+    };
 
     return (
         <div className={"typography-container"}>
-            <div
-                className={"font-input"}
-                onClick={() => setDisplayFontModal(prev => !prev)}
-            >
-                <p>{tempFontFamily ? tempFontFamily.family : newFontStyles.family}</p>
+            <div className={"font-input"} onClick={() => setDisplayFontModal(prev => !prev)}>
+                <p>{tempFontFamily?.family || componentFontStyles.family}</p>
                 <ArrowIcon/>
             </div>
 
             <div className={"font-detail-inputs"}>
-                <div className={"font-weight-container"}>
-                    <ul className={selectorsStates.style ? "font-details-options-open" : ""}>
-                        {(rawFont?.variants || []).map(fontStyle => (
+                {/* Font Style Selector */}
+                <div className="font-weight-container">
+                    <ul className={selectorsStates.fontStyle ? "font-details-options-open" : ""}>
+                        {rawFont?.variants?.map(v => (
                             <li
-                                className={fontStyle === newFontStyles.style ? "selected-font-option" : "" }
-                                key={`fontStyle-${fontStyle}`}
-                                value={fontStyle}
-                                onClick={() => handleChangeSelector(selectorTypes.style, fontStyle)}
+                                key={`fontStyle-${v}`}
+                                className={v === getFontStyleValue() ? "selected-font-option" : ""}
+                                onClick={() => handleChangeSelector("fontStyle", v)}
                             >
-                                {fontStyleValues[fontStyle]}
+                                {fontStyleValues[v]}
                             </li>
                         ))}
                     </ul>
 
-                    <div
-                        className={"font-weight-input"}
-                        onClick={() => handleOpenSelector(selectorTypes.style)}
-                    >
-                        <p>{fontStyleValues[newFontStyles.style]}</p>
-                        <ArrowIcon/>
+                    <div className="font-weight-input" onClick={() => handleOpenSelector("fontStyle")}>
+                        <p>{fontStyleValues[getFontStyleValue()]}</p>
+                        <ArrowIcon />
                     </div>
                 </div>
 
-                <div className={"font-size-container"}>
-                    <ul className={selectorsStates.size ? "font-details-options-open" : ""}>
-                        {fontSizeDefaultValues.map(fontSize => (
+                {/* Font Size Selector */}
+                <div className="font-size-container">
+                    <ul className={selectorsStates.fontSize ? "font-details-options-open" : ""}>
+                        {fontSizeDefaultValues.map(size => (
                             <li
-                                className={fontSize === newFontStyles.size ? "selected-font-option" : "" }
-                                key={`fontSize-${fontSize}`}
-                                value={fontSize}
-                                onClick={() => handleChangeSelector(selectorTypes.size, fontSize)}
+                                key={`fontSize-${size}`}
+                                className={size === componentFontStyles.fontSize ? "selected-font-option" : ""}
+                                onClick={() => handleChangeSelector("fontSize", size)}
                             >
-                                {fontSize}
+                                {size}
                             </li>
                         ))}
                     </ul>
 
-                    <div className={"font-size-input"}>
+                    <div className="font-size-input">
                         <input
                             type="text"
-                            value={newFontStyles.size}
-                            onChange={(e) => {setNewFontStyles(prev => ({
-                                ...prev,
-                                size: e.target.value
-                            }))}}
+                            value={componentFontStyles.fontSize}
+                            onChange={e => updateFontStyle("fontSize", e.target.value)}
                         />
-                        <button onClick={() => handleOpenSelector(selectorTypes.size)}>
-                            <ArrowIcon/>
+                        <button onClick={() => handleOpenSelector("fontSize")}>
+                            <ArrowIcon />
                         </button>
                     </div>
-
                 </div>
             </div>
 
-            <div className={"align-buttons-container"}>
-                {alignObjects.map((alignItem) => {
-                    return (
-                        <button
-                            className={newFontStyles.textAlign === alignItem.code ? "align-selected" : ""}
-                            onClick={() => {setNewFontStyles(prev => ({
-                                ...prev,
-                                textAlign: alignItem.code
-                            }))}}
-                        >
-                            {alignItem.icon}
-                        </button>
-                    )
-                })}
+            {/* Text Align Buttons */}
+            <div className="align-buttons-container">
+                {alignObjects.map(a => (
+                    <button
+                        key={a.code}
+                        className={componentFontStyles.textAlign === a.code ? "align-selected" : ""}
+                        onClick={() => updateFontStyle("textAlign", a.code)}
+                    >
+                        {a.icon}
+                    </button>
+                ))}
             </div>
-
 
             {displayFontModal && (
                 <GoogleFontsModal
-                    currentFont={newFontStyles.family}
+                    currentFont={componentFontStyles.family}
                     setTempFontFamily={setTempFontFamily}
                     handleCloseModal={handleCloseModal}
-                    handleSubmit={handleSubmit}
+                    handleChange={handleChangeFont}
                 />
             )}
         </div>

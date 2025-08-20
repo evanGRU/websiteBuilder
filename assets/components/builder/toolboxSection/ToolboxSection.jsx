@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./toolboxSection.scss";
 import interact from "interactjs";
-import {useInteract} from "../../../services/contexts/InteractContext";
+import {useNewComponentManager} from "../../../services/contexts/NewComponentManagerContext";
 
 const ToolboxSection = ({ sectionData, setSectionData }) => {
     const followerRef = useRef(null);
     const position = useRef({ x: 0, y: 0 });
     const [isDragActive, setIsDragActive] = useState(false);
-    const {initTextFormData} = useInteract();
+    const {initTextFormData} = useNewComponentManager();
 
     useEffect(() => {
         interact('.new-comp-btn-drag').draggable({

@@ -53,8 +53,8 @@ export const componentStyles = {
 
 export const defaultComponentStylesValues = {
     fontFamily: 'Inter',
-    fontStyle: 'regular',
-    fontSize: '12',
+    fontStyle: 'normal',
+    fontWeight: '400',
     textAlign: 'left',
     color: "#000000",
     backgroundColor: "transparent"
@@ -81,11 +81,6 @@ export const fontStyleValues = {
     '700italic': 'Bold Italic',
     '800italic': 'Extra Bold Italic',
     '900italic': 'Black Italic',
-}
-
-export const selectorTypes = {
-    style: 'style',
-    size: 'size'
 }
 
 export const alignObjects = [

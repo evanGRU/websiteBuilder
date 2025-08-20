@@ -7,7 +7,6 @@ import {componentTypes} from "../../../../services/params";
 import {formatComponentStyle} from "../../../../services/functions/globalFunctions";
 
 const EditSection = ({componentToEdit}) => {
-
     const formatedComponentStyle = componentToEdit && formatComponentStyle(componentToEdit);
 
     return (

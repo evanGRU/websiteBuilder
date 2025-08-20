@@ -5,19 +5,17 @@ import {toast} from "react-toastify";
 import "./builderPage.scss";
 import Toolbox from "../../components/builder/toolbox/Toolbox";
 import ContentArea from "../../components/builder/contentArea/ContentArea";
-import {InteractProvider} from "../../services/contexts/InteractContext";
+import {NewComponentManagerProvider} from "../../services/contexts/NewComponentManagerContext";
 import Loader from "../../components/loader/Loader";
 import EditMenu from "../../components/builder/edit/editMenu/EditMenu";
 import {GoogleFontsProvider} from "../../services/contexts/GoogleFontsContext";
+import {ComponentsManagerProvider} from "../../services/contexts/ComponentsManagerContext";
 
 function BuilderPage() {
     const { id } = useParams();
 
     const [project, setProject] = useState(null);
     const [hasProjectLoaded, setHasProjectLoaded] = useState(false);
-
-    const [componentToEdit, setComponentToEdit] = useState(null);
-
 
     useEffect(() => {
         if (!id) return;
@@ -37,28 +35,21 @@ function BuilderPage() {
 
 
     return hasProjectLoaded ? (
-        <GoogleFontsProvider>
-            <InteractProvider>
-                <div className="builder-container">
-                    <Toolbox/>
+        <ComponentsManagerProvider project={project} setProject={setProject}>
+            <GoogleFontsProvider>
+                <NewComponentManagerProvider setProject={setProject}>
+                    <div className="builder-container">
+                        <Toolbox/>
 
-                    <div className="content-container">
-                        <ContentArea
-                            project={project}
-                            setProject={setProject}
-                            componentToEdit={componentToEdit}
-                            setComponentToEdit={setComponentToEdit}
-                        />
+                        <div className="content-container">
+                            <ContentArea/>
+                        </div>
+
+                        <EditMenu/>
                     </div>
-
-                    <EditMenu
-                        project={project}
-                        setProject={setProject}
-                        componentToEdit={componentToEdit}
-                    />
-                </div>
-            </InteractProvider>
-        </GoogleFontsProvider>
+                </NewComponentManagerProvider>
+            </GoogleFontsProvider>
+        </ComponentsManagerProvider>
     ) : <Loader fullScreen={true}/>
 }
 

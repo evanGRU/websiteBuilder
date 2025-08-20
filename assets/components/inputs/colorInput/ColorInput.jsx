@@ -1,17 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './colorInput.scss';
 import {HiddenIcon, VisibleIcon} from "../../../services/svg";
 import {HexColorPicker} from "react-colorful";
 import EditDefaultModal from "../../modals/editDefaultModal/EditDefaultModal";
+import {useComponentsManager} from "../../../services/contexts/ComponentsManagerContext";
 
 const ColorInput = ({componentColorStyle}) => {
-    const [colorValue, setColorValue] = useState("");
     const [hideColor, setHideColor] = useState(false);
     const [displayColorPickerModal, setDisplayColorPickerModal] = useState(false);
 
-    useEffect(() => {
-        setColorValue(componentColorStyle);
-    }, [componentColorStyle]);
+    const {handleChangeComponent} = useComponentsManager();
+
+    const handleChange = (newColor) => {
+        handleChangeComponent('color', newColor);
+    }
+
+    const handleClose = () => setDisplayColorPickerModal(false);
 
     return (
         <div className={"color-container"}>
@@ -20,13 +24,13 @@ const ColorInput = ({componentColorStyle}) => {
                     onClick={() => setDisplayColorPickerModal(prev => !prev)}
                     disabled={hideColor}
                 >
-                    <div className={"color-input-btn"} style={{ backgroundColor: colorValue }}></div>
+                    <div className={"color-input-btn"} style={{ backgroundColor: componentColorStyle }}></div>
                 </button>
                 <input
                     type="text"
                     name="color"
-                    value={colorValue}
-                    onChange={(e) => {setColorValue(e.target.value)}}
+                    value={componentColorStyle}
+                    onChange={handleChange}
                     disabled={hideColor}
                 />
             </div>
@@ -38,8 +42,8 @@ const ColorInput = ({componentColorStyle}) => {
             </div>
 
             {displayColorPickerModal && (
-                <EditDefaultModal setter={setDisplayColorPickerModal} title={"Changer la couleur"}>
-                    <HexColorPicker color={colorValue} onChange={setColorValue} className="color-picker"/>
+                <EditDefaultModal onClose={handleClose} title={"Changer la couleur"}>
+                    <HexColorPicker color={componentColorStyle} onChange={handleChange} className="color-picker"/>
                 </EditDefaultModal>
             )}
         </div>

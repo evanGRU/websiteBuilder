@@ -4,7 +4,7 @@ import EditDefaultModal from "../editDefaultModal/EditDefaultModal";
 import { FixedSizeList } from "react-window";
 import {useGoogleFonts} from "../../../services/contexts/GoogleFontsContext";
 
-const GoogleFontsModal = ({ currentFont, setTempFontFamily, handleCloseModal, handleSubmit }) => {
+const GoogleFontsModal = ({ currentFont, setTempFontFamily, handleCloseModal, handleChange }) => {
     const listRef = useRef(null);
 
     const { fontsList, loadFontIfNeeded } = useGoogleFonts();
@@ -54,7 +54,7 @@ const GoogleFontsModal = ({ currentFont, setTempFontFamily, handleCloseModal, ha
                 className={"font-item"}
                 onMouseOver={() => setTempFontFamily(font)}
                 onMouseLeave={() => setTempFontFamily(null)}
-                onClick={() => handleSubmit(font)}
+                onClick={() => handleChange(font)}
             >
                 {font.family}
             </div>
