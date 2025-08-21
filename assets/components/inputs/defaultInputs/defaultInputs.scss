@@ -1,4 +1,4 @@
-.dimensions-container {
+.default-inputs-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -20,7 +20,7 @@
         }
     }
 
-    .dimensions-inputs-container {
+    .default-inputs-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -28,7 +28,7 @@
         height: 100%;
         width: 100%;
 
-        .dimensions-input {
+        .default-input {
             display: flex;
             align-items: center;
             border-radius: 5px;

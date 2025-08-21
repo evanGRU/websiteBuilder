@@ -26,6 +26,8 @@ export const SelectionProvider = ({ children, componentToEdit, setComponentToEdi
     }, [hasComponentChanged, componentToEdit]);
 
     useEffect(() => {
+        if (!componentToEdit) return;
+
         const handleKeyDown = (event) => {
             if (event.key === 'Escape') {
                 setIsEditing(false);
@@ -37,12 +39,13 @@ export const SelectionProvider = ({ children, componentToEdit, setComponentToEdi
 
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [isEditing]);
+    }, [isEditing, componentToEdit]);
 
     useEffect(() => {
-        if (isEditing) return;
+        if (!componentToEdit || isEditing) return;
+
         const handleKeyDown = (e) => {
-            if (e.key === "Delete" || e.key === "Backspace" || e.keyCode === 46) {
+            if (e.key === "Delete" || e.keyCode === 46) {
                 handleDeleteComponent(componentToEdit);
             }
         };

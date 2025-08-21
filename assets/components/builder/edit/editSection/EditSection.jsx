@@ -1,20 +1,32 @@
 import React from 'react';
 import './editSection.scss';
-import DimensionsInputs from "../../../inputs/dimensionsInputs/DimensionsInputs";
 import ColorInput from "../../../inputs/colorInput/ColorInput";
 import TypographyInputs from "../../../inputs/typographyInputs/TypographyInputs";
 import {componentTypes} from "../../../../services/params";
 import {formatComponentStyle} from "../../../../services/functions/globalFunctions";
+import DefaultInputs from "../../../inputs/defaultInputs/DefaultInputs";
 
 const EditSection = ({componentToEdit}) => {
     const formatedComponentStyle = componentToEdit && formatComponentStyle(componentToEdit);
+
+    const getDefaultInputsValues = (inputType) => {
+        const mapping = {
+            dimensions: { width: formatedComponentStyle?.width, height: formatedComponentStyle?.height },
+            positions: { left: formatedComponentStyle?.left, top: formatedComponentStyle?.top }
+        };
+
+        return mapping[inputType] || { value1: 0, value2: 0 };
+    };
 
     return (
         <div className={"builder-edit-section"}>
             <h3>Style de la page</h3>
             <div className={"builder-edit-item-container"}>
                 <p>Dimensions</p>
-                <DimensionsInputs/>
+                <DefaultInputs
+                    inputType={"dimensions"}
+                    componentStyleValues={getDefaultInputsValues("dimensions")}
+                />
             </div>
             {
                 componentToEdit?.type === componentTypes.text && (
@@ -27,6 +39,14 @@ const EditSection = ({componentToEdit}) => {
                         <div className={"builder-edit-item-container"}>
                             <p>Couleur de texte</p>
                             <ColorInput componentColorStyle={formatedComponentStyle.color}/>
+                        </div>
+
+                        <div className={"builder-edit-item-container"}>
+                            <p>Positions</p>
+                            <DefaultInputs
+                                inputType={"positions"}
+                                componentStyleValues={getDefaultInputsValues("positions")}
+                            />
                         </div>
                     </>
                 )

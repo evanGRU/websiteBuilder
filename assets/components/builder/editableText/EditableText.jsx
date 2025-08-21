@@ -31,7 +31,6 @@ const EditableText = ({ textComponent, style }) => {
     };
 
     const handleDoubleClick = () => {
-        setComponentToEdit(textComponent);
         setIsEditing(true);
     };
 

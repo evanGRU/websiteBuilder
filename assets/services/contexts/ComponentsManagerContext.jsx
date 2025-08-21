@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useState} from "react";
+import React, {createContext, useContext, useEffect, useRef, useState} from "react";
 import {parseFontStyle} from "../functions/globalFunctions";
 import api from "../api";
 import {toast} from "react-toastify";
@@ -9,34 +9,61 @@ export function ComponentsManagerProvider({ children, project, setProject }) {
     const [componentToEdit, setComponentToEdit] = useState(null);
     const [hasComponentChanged, setHasComponentChanged] = useState(false);
 
+    const componentRef = useRef(componentToEdit);
+    useEffect(() => {
+        componentRef.current = componentToEdit;
+    }, [componentToEdit]);
+
     const handleChangeComponent = (prop, value) => {
-        let styleUpdates = { [prop]: value };
+        const stylesPropertyWhoNeedPx = ["fontSize", "left", "top", "width", "height"];
+        const currentValue = value !== "" ? value : 0;
+        let styleUpdates = {};
+
+        if (Array.isArray(prop)) {
+            prop.forEach((p, i) => {
+                styleUpdates[p] = Array.isArray(currentValue) ? currentValue[i] : currentValue;
+            });
+        } else {
+            styleUpdates[prop] = currentValue;
+        }
 
         if (prop === "fontStyle") {
-            const [weight, style] = parseFontStyle(value);
+            const [weight, style] = parseFontStyle(currentValue);
 
             styleUpdates = {
                 fontWeight: (weight === "regular" || weight === "italic") ? "400" : weight,
-                fontStyle:
-                    (weight === "regular" || weight === "italic") ? weight
-                        : style ? style : "normal"
+                fontStyle: weight === "italic" ? weight
+                    : style ? style : "normal"
             };
         }
 
-        setComponentToEdit(prev => ({
-            ...prev,
-            styles: prev.styles.map(s =>
-                s.property.code in styleUpdates ?
-                    {
-                        ...s,
-                        value: s.property.code === "fontSize" ? styleUpdates[s.property.code] + "px" : styleUpdates[s.property.code]
-                    } : s
-            )
-        }));
+        setComponentToEdit(prev => {
+            const updated = {
+                ...prev,
+                styles: prev.styles.map(s => {
+                    if (styleUpdates.hasOwnProperty(s.property.code)) {
+                        let newValue = styleUpdates[s.property.code];
+
+                        if (stylesPropertyWhoNeedPx.includes(s.property.code) && !isNaN(newValue)) {
+                            newValue = `${newValue}px`;
+                        }
+
+                        return {
+                            ...s,
+                            value: newValue
+                        };
+                    }
+                    return s;
+                })
+            };
+
+            componentRef.current = updated;
+            return updated;
+        });
     };
 
 
-    {/* Check if component has changed */}
+
     useEffect(() => {
         if (!componentToEdit) return;
 
@@ -47,14 +74,18 @@ export function ComponentsManagerProvider({ children, project, setProject }) {
         });
 
         setHasComponentChanged(stylesChanged);
-    }, [componentToEdit]);
+    }, [componentToEdit, project]);
 
 
     const handleSaveComponentChanges = async () => {
         try {
-            const initialComponent = project.components.find(c => c.id === componentToEdit.id);
+            const currentComponentEdited = componentRef.current;
+            if (!currentComponentEdited) return;
 
-            const newStyles = componentToEdit.styles.filter(style => {
+            const initialComponent = project.components.find(c => c.id === currentComponentEdited.id);
+            if (!initialComponent) return;
+
+            const newStyles = currentComponentEdited.styles.filter(style => {
                 const initialStyle = initialComponent.styles.find(s => s.id === style.id);
                 return initialStyle && initialStyle.value !== style.value;
             });
@@ -73,7 +104,7 @@ export function ComponentsManagerProvider({ children, project, setProject }) {
                     ).then(r => r.data)
                 )
             );
-
+            console.log('save');
             setProject(prev => ({
                 ...prev,
                 components: prev.components.map(component =>
@@ -101,6 +132,7 @@ export function ComponentsManagerProvider({ children, project, setProject }) {
             setProject,
             componentToEdit,
             setComponentToEdit,
+            componentRef,
             handleChangeComponent,
             hasComponentChanged,
             handleSaveComponentChanges

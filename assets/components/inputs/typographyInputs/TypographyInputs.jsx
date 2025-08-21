@@ -17,7 +17,7 @@ const TypographyInputs = ({componentFontStyles}) => {
     const [tempFontFamily, setTempFontFamily] = useState(null);
 
     const { fontsList } = useGoogleFonts();
-    const {handleChangeComponent,} = useComponentsManager();
+    const { handleChangeComponent } = useComponentsManager();
 
     const rawFont = fontsList.find(f => f.family === componentFontStyles.family);
 

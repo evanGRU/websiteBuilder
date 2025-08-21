@@ -11,4 +11,6 @@ VALUES
     ('textAlign', 'Alignement'),
     ('margin', 'Marge autour de l’élément'),
     ('padding', 'Espacement intérieur de l’élément'),
-    ('position', 'Position');
+    ('position', 'Position'),
+    ('left', 'Position à partir de la gauche'),
+    ('top', 'Position à partir du haut');

@@ -26,7 +26,10 @@ export const formatComponentStyle = (component) => {
             textAlign: stylesMap.textAlign || defaultComponentStylesValues.textAlign
         },
         color: stylesMap.color || defaultComponentStylesValues.color,
-        backgroundColor: stylesMap.backgroundColor || defaultComponentStylesValues.backgroundColor
+        backgroundColor: stylesMap.backgroundColor || defaultComponentStylesValues.backgroundColor,
+        left: stylesMap.left,
+        top: stylesMap.top,
+        position: stylesMap.position || defaultComponentStylesValues.position
     };
 }
 

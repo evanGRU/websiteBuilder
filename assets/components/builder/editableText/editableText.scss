@@ -1,5 +1,6 @@
 .editable {
     width: max-content;
+    user-select: none;
     &:hover {
         cursor: pointer;
         outline: 1px solid #75baed;

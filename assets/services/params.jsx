@@ -52,6 +52,7 @@ export const componentStyles = {
 }
 
 export const defaultComponentStylesValues = {
+    position: 'absolute',
     fontFamily: 'Inter',
     fontStyle: 'normal',
     fontWeight: '400',
@@ -107,3 +108,10 @@ export const componentTypes = {
 }
 
 export const GOOGLE_API_KEY = "AIzaSyDn_gYG1xpZevxu0a_HRyryrf6DdW_Wh9I";
+
+export const defaultInputLabels = {
+    left: "X",
+    top: "Y",
+    width: "W",
+    height: "H",
+}

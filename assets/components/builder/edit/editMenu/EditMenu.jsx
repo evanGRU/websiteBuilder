@@ -1,6 +1,6 @@
 import React from 'react';
 import './editMenu.scss';
-import {MoreIcon} from "../../../../services/svg";
+import {FullScreenIcon} from "../../../../services/svg";
 import EditSection from "../editSection/EditSection";
 import {useComponentsManager} from "../../../../services/contexts/ComponentsManagerContext";
 
@@ -11,7 +11,7 @@ const EditMenu = () => {
         <div className={"builder-edit-container"}>
             <div className={"builder-edit-container-header"}>
                 <p>{project.name}</p>
-                <MoreIcon/>
+                <FullScreenIcon/>
             </div>
             <EditSection componentToEdit={componentToEdit}/>
         </div>
