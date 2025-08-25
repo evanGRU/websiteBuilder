@@ -8,6 +8,7 @@ const ComponentsManagerContext = createContext();
 export function ComponentsManagerProvider({ children, project, setProject }) {
     const [componentToEdit, setComponentToEdit] = useState(null);
     const [hasComponentChanged, setHasComponentChanged] = useState(false);
+    const [isComponentSaving, setIsComponentSaving] = useState(false);
 
     const componentRef = useRef(componentToEdit);
     useEffect(() => {
@@ -63,7 +64,6 @@ export function ComponentsManagerProvider({ children, project, setProject }) {
     };
 
 
-
     useEffect(() => {
         if (!componentToEdit) return;
 
@@ -78,6 +78,7 @@ export function ComponentsManagerProvider({ children, project, setProject }) {
 
 
     const handleSaveComponentChanges = async () => {
+        setIsComponentSaving(true);
         try {
             const currentComponentEdited = componentRef.current;
             if (!currentComponentEdited) return;
@@ -104,7 +105,7 @@ export function ComponentsManagerProvider({ children, project, setProject }) {
                     ).then(r => r.data)
                 )
             );
-            console.log('save');
+
             setProject(prev => ({
                 ...prev,
                 components: prev.components.map(component =>
@@ -123,6 +124,44 @@ export function ComponentsManagerProvider({ children, project, setProject }) {
             toast.error('Une erreur s\'est produite.');
         }
         setHasComponentChanged(false);
+        setIsComponentSaving(false);
+    }
+
+    const handleSaveText = async () => {
+        try {
+            const currentComponentEdited = componentRef.current;
+            if (!currentComponentEdited) return;
+
+            const initialComponent = project.components.find(c => c.id === componentToEdit.id);
+            if (!initialComponent) return;
+
+            if (currentComponentEdited.content.value === initialComponent.content.value) {
+                return;
+            }
+
+            const response = await api.patch(
+                `/components/${currentComponentEdited.id}/update`,
+                { value: currentComponentEdited.content.value },
+                { headers: { "Content-Type": "application/merge-patch+json" } }
+            ).then(r => r.data);
+
+            setProject(prev => ({
+                ...prev,
+                components: prev.components.map(component =>
+                    component.id === initialComponent.id ?
+                        {
+                            ...component,
+                            content: {
+                                ...component.content,
+                                value: currentComponentEdited.content.value
+                            }
+                        }
+                        : component
+                ),
+            }));
+        } catch (e) {
+            toast.error('Une erreur s\'est produite.');
+        }
     }
 
 
@@ -135,7 +174,9 @@ export function ComponentsManagerProvider({ children, project, setProject }) {
             componentRef,
             handleChangeComponent,
             hasComponentChanged,
-            handleSaveComponentChanges
+            handleSaveComponentChanges,
+            isComponentSaving,
+            handleSaveText
         }}>
             {children}
         </ComponentsManagerContext.Provider>

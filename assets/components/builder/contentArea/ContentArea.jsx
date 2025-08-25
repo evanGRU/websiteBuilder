@@ -15,7 +15,9 @@ const ContentArea = () => {
         componentToEdit,
         setComponentToEdit,
         hasComponentChanged,
-        handleSaveComponentChanges
+        handleSaveComponentChanges,
+        isComponentSaving,
+        handleSaveText
     } = useComponentsManager();
 
     const handleDeleteComponent = async (componentToEdit) => {
@@ -42,6 +44,7 @@ const ContentArea = () => {
                 handleDeleteComponent={handleDeleteComponent}
                 hasComponentChanged={hasComponentChanged}
                 handleSaveComponentChanges={handleSaveComponentChanges}
+                isComponentSaving={isComponentSaving}
             >
                 {project.components.map((component) => {
                     if (component.type === toolboxTexts.menuProperties.text.name) {
@@ -54,6 +57,7 @@ const ContentArea = () => {
                                 key={component.id}
                                 textComponent={component}
                                 style={inlineStyles}
+                                handleSaveText={handleSaveText}
                             />
                         );
                     }

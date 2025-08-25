@@ -2,18 +2,23 @@ import React, { useState, useRef, useEffect } from 'react';
 import './editableText.scss';
 import { useGoogleFonts } from '../../../services/contexts/GoogleFontsContext';
 import { useSelection } from '../../../services/contexts/SelectionContext';
+import {useComponentsManager} from "../../../services/contexts/ComponentsManagerContext";
 
-const EditableText = ({ textComponent, style }) => {
+const EditableText = ({ textComponent, style, handleSaveText }) => {
     const [value, setValue] = useState(textComponent.content.value);
     const ref = useRef(null);
 
     const { loadFontIfNeeded } = useGoogleFonts();
     const {
-        componentToEdit,
-        setComponentToEdit,
         isEditing,
         setIsEditing,
     } = useSelection();
+
+    const {
+        componentToEdit,
+        setComponentToEdit,
+        handleChangeComponent
+    } = useComponentsManager();
 
     const isActive = componentToEdit?.id === textComponent.id;
     const isThisEditing = isEditing && isActive;
@@ -34,7 +39,24 @@ const EditableText = ({ textComponent, style }) => {
         setIsEditing(true);
     };
 
-    const handleChange = (e) => setValue(e.target.value);
+    const handleChange = (e) => {
+        const newValue = e.target.value;
+
+        let inputWidth = newValue.length + "ch";
+        handleChangeComponent('width', inputWidth)
+        setValue(newValue);
+        setComponentToEdit((prev) => ({
+            ...prev,
+            content: {
+                ...prev.content,
+                value: newValue
+            }
+        }));
+    };
+
+    const handleBlur = () => {
+        handleSaveText();
+    }
 
     if (isThisEditing) {
         return (
@@ -47,6 +69,7 @@ const EditableText = ({ textComponent, style }) => {
                 onChange={handleChange}
                 className="edit-input"
                 style={style}
+                onBlur={handleBlur}
                 onFocus={(e) => e.target.select()}
             />
         );

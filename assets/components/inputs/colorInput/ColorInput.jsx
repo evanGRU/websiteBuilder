@@ -30,7 +30,7 @@ const ColorInput = ({componentColorStyle}) => {
                     type="text"
                     name="color"
                     value={componentColorStyle}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e.target.value)}
                     disabled={hideColor}
                 />
             </div>

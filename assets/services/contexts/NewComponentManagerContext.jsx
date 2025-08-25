@@ -59,6 +59,12 @@ export function NewComponentManagerProvider({ children, setProject }) {
                         code : 'color'
                     },
                     value: '#000000'
+                },
+                {
+                    property: {
+                        code : 'width'
+                    },
+                    value: toolboxTexts.menuProperties.text.defaultValues[tagKey].length + "ch"
                 }
             ]
         }

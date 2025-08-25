@@ -2,7 +2,15 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const SelectionContext = createContext();
 
-export const SelectionProvider = ({ children, componentToEdit, setComponentToEdit, handleDeleteComponent, hasComponentChanged, handleSaveComponentChanges }) => {
+export const SelectionProvider = ({
+                                      children,
+                                      componentToEdit,
+                                      setComponentToEdit,
+                                      handleDeleteComponent,
+                                      hasComponentChanged,
+                                      handleSaveComponentChanges,
+                                      isComponentSaving,
+}) => {
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
@@ -13,17 +21,19 @@ export const SelectionProvider = ({ children, componentToEdit, setComponentToEdi
             const clickedSelectable = event.target.closest("[data-selectable]");
             if (clickedSelectable) return;
 
-            if (hasComponentChanged) {
-                await handleSaveComponentChanges();
-            }
+            if (!isComponentSaving) {
+                if (hasComponentChanged) {
+                    await handleSaveComponentChanges();
+                }
 
-            setComponentToEdit(null);
-            setIsEditing(false);
+                setComponentToEdit(null);
+                setIsEditing(false);
+            }
         };
 
         document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', handleClickOutside);
-    }, [hasComponentChanged, componentToEdit]);
+    }, [hasComponentChanged, componentToEdit, isComponentSaving]);
 
     useEffect(() => {
         if (!componentToEdit) return;
