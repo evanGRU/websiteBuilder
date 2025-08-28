@@ -37,3 +37,21 @@ export const parseFontStyle = (str) => {
     const match = str.match(/^(\d+)([a-zA-Z]+)$/);
     return match ? [match[1], match[2]] : [str, ""];
 };
+
+export const validateForm = (formData) => {
+    const errors = {};
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(formData.email)) {
+        errors.email = "Adresse email invalide";
+    }
+
+    if (formData.password !== formData.confirmedPassword) {
+        errors.confirmedPassword = "Les mots de passe ne sont pas identiques";
+    }
+
+    return {
+        isValid: Object.keys(errors).length === 0,
+        errors
+    };
+}
