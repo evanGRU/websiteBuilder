@@ -25,10 +25,10 @@
         }
 
         .modal-button-delete {
-            background-color: #f62929;
-            border: 1px solid #f62929;
+            background-color: var(--red);
+            border: 1px solid var(--red);
             &:hover {
-                background-color: #f84747;
+                background-color: var(--red-hover);
             }
         }
     }

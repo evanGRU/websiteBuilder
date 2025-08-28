@@ -1,7 +1,7 @@
 import './deleteModal.scss';
 import React from "react";
 import {toast} from "react-toastify";
-import api from "../../../services/auth/api";
+import api from "../../../services/api";
 import {DefaultModalContainer} from "../defaultModalContainer/DefaultModalContainer";
 
 const DeleteModal = ({setDisplayModal, dataToDelete}) => {

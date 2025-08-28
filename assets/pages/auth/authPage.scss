@@ -23,3 +23,13 @@
         }
     }
 }
+
+.verify-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5em;
+    padding-top: 20em;
+}

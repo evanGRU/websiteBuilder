@@ -1,0 +1,28 @@
+.builder-loader-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+
+    .loader {
+        border: 4px solid var(--light-gray-hover);
+        border-top: 4px solid var(--main-blue);
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 2s linear infinite;
+    }
+}
+
+.loader-fullscreen {
+    width: 100vw;
+    height: 100vh;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

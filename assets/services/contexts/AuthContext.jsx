@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {useLocation, useNavigate} from "react-router-dom";
-import api from "./api";
+import api from "../api";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const navigate = useNavigate();
     const location = useLocation();
-    const isAuthPage = location.pathname === "/auth";
+    const isAuthPage = location.pathname === "/auth" || location.pathname === "/verify";
     const [token, setToken] = useState(() => localStorage.getItem("token"));
     const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")));
 

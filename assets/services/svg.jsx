@@ -1,4 +1,4 @@
-const Logo = () => {
+export const Logo = () => {
     return (
         <svg width="80" height="38" viewBox="0 0 71 33" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -17,7 +17,7 @@ const Logo = () => {
     )
 }
 
-const VisibleIcon = () => {
+export const VisibleIcon = () => {
     return (
         <svg width="20" height="20" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -38,7 +38,7 @@ const VisibleIcon = () => {
     )
 }
 
-const HiddenIcon = () => {
+export const HiddenIcon = () => {
     return (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -52,7 +52,7 @@ const HiddenIcon = () => {
     )
 }
 
-const AppleLogo = () => {
+export const AppleLogo = () => {
     return (
         <svg fill="#000000" width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -62,7 +62,7 @@ const AppleLogo = () => {
     )
 }
 
-const GoogleLogo = () => {
+export const GoogleLogo = () => {
     return (
         <svg width="20" height="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <path d="M23.75,16A7.7446,7.7446,0,0,1,8.7177,18.6259L4.2849,22.1721A13.244,13.244,0,0,0,29.25,16" fill="#00ac47"/>
@@ -76,7 +76,7 @@ const GoogleLogo = () => {
     )
 }
 
-const AccountIcon = () => {
+export const AccountIcon = () => {
     return (
         <svg width="20" height="20" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -87,7 +87,7 @@ const AccountIcon = () => {
     )
 }
 
-const CloseIcon = () => {
+export const CloseIcon = () => {
     return (
         <svg width="15" height="15" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -98,7 +98,7 @@ const CloseIcon = () => {
     )
 }
 
-const MoreIcon = () => {
+export const MoreIcon = () => {
     return (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -138,7 +138,7 @@ const MoreIcon = () => {
     )
 }
 
-const EditIcon = () => {
+export const EditIcon = () => {
     return (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -153,7 +153,7 @@ const EditIcon = () => {
     )
 }
 
-const DeleteIcon = () => {
+export const DeleteIcon = () => {
     return (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -164,7 +164,7 @@ const DeleteIcon = () => {
     )
 }
 
-const WebsitesIcon = () => {
+export const WebsitesIcon = () => {
     return (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -175,7 +175,7 @@ const WebsitesIcon = () => {
     )
 }
 
-const LogOutIcon = () => {
+export const LogOutIcon = () => {
     return (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -189,18 +189,187 @@ const LogOutIcon = () => {
     )
 }
 
-
-export {
-    Logo,
-    VisibleIcon,
-    HiddenIcon,
-    AppleLogo,
-    GoogleLogo,
-    AccountIcon,
-    CloseIcon,
-    MoreIcon,
-    EditIcon,
-    DeleteIcon,
-    WebsitesIcon,
-    LogOutIcon
+export const ButtonIcon = () => {
+    return (
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M15 10V20M10 15H20M6.25 3.75H23.75C25.1307 3.75 26.25 4.86929 26.25 6.25V23.75C26.25 25.1307 25.1307 26.25 23.75 26.25H6.25C4.86929 26.25 3.75 25.1307 3.75 23.75V6.25C3.75 4.86929 4.86929 3.75 6.25 3.75Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
 }
+
+export const DivIcon = () => {
+    return (
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.5 3.75H3.75V12.5H12.5V3.75Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M26.25 3.75H17.5V12.5H26.25V3.75Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M26.25 17.5H17.5V26.25H26.25V17.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12.5 17.5H3.75V26.25H12.5V17.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+
+    )
+}
+
+export const TextIcon = () => {
+    return (
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M4 18.5C4.51768 18.5 4.94379 18.8933 4.99512 19.3975L5 19.5V24C5 24.8284 5.67157 25.5 6.5 25.5H11C11.5523 25.5 12 25.9477 12 26.5C12 27.0523 11.5523 27.5 11 27.5H6.5C4.567 27.5 3 25.933 3 24V19.5L3.00488 19.3975C3.05621 18.8933 3.48232 18.5 4 18.5ZM26.5 18.5C27.0523 18.5 27.5 18.9477 27.5 19.5V24C27.5 25.933 25.933 27.5 24 27.5H19.5L19.3975 27.4951C18.8933 27.4438 18.5 27.0177 18.5 26.5C18.5 25.9823 18.8933 25.5562 19.3975 25.5049L19.5 25.5H24C24.8284 25.5 25.5 24.8284 25.5 24V19.5C25.5 18.9477 25.9477 18.5 26.5 18.5ZM21.5 7C22.3284 7 23 7.67157 23 8.5V12.3525C23 13.181 22.3284 13.8525 21.5 13.8525H19.5303C18.7019 13.8525 18.0303 13.181 18.0303 12.3525V12.0879H17.4844V18.9121H18.1064C18.9347 18.9123 19.6064 19.5838 19.6064 20.4121V22.5C19.6064 23.3283 18.9347 23.9998 18.1064 24H11.8936C11.0653 23.9998 10.3936 23.3283 10.3936 22.5V20.4121C10.3936 19.5838 11.0653 18.9123 11.8936 18.9121H12.5156V12.0879H11.9697V12.3525C11.9697 13.181 11.2981 13.8525 10.4697 13.8525H8.5C7.7232 13.8525 7.08443 13.2625 7.00781 12.5059L7 12.3525V8.5C7 7.67157 7.67157 7 8.5 7H21.5ZM9 11.8525H9.96973V11.5879C9.96991 10.7596 10.6414 10.0879 11.4697 10.0879H13.0156C13.8437 10.0881 14.5154 10.7598 14.5156 11.5879V19.4121C14.5154 20.2402 13.8437 20.9119 13.0156 20.9121H12.3936V22H17.6064V20.9121H16.9844C16.1563 20.9119 15.4846 20.2402 15.4844 19.4121V11.5879C15.4846 10.7598 16.1563 10.0881 16.9844 10.0879H18.5303C19.3586 10.0879 20.0301 10.7596 20.0303 11.5879V11.8525H21V9H9V11.8525ZM11.1025 3.00488C11.6067 3.05621 12 3.48232 12 4C12 4.51768 11.6067 4.94379 11.1025 4.99512L11 5H6.5C5.67157 5 5 5.67157 5 6.5V11C5 11.5523 4.55228 12 4 12C3.44772 12 3 11.5523 3 11V6.5C3 4.567 4.567 3 6.5 3H11L11.1025 3.00488ZM24 3C25.933 3 27.5 4.567 27.5 6.5V11L27.4951 11.1025C27.4438 11.6067 27.0177 12 26.5 12C25.9823 12 25.5562 11.6067 25.5049 11.1025L25.5 11V6.5C25.5 5.67157 24.8284 5 24 5H19.5C18.9477 5 18.5 4.55228 18.5 4C18.5 3.44772 18.9477 3 19.5 3H24Z"
+                fill="currentColor"
+            />
+        </svg>
+    )
+}
+
+export const ImageIcon = () => {
+    return (
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M6.25 26.25H23.75C25.1307 26.25 26.25 25.1307 26.25 23.75V6.25C26.25 4.86929 25.1307 3.75 23.75 3.75H6.25C4.86929 3.75 3.75 4.86929 3.75 6.25V23.75C3.75 25.1307 4.86929 26.25 6.25 26.25ZM6.25 26.25L20 12.5L26.25 18.75M12.5 10.625C12.5 11.6605 11.6605 12.5 10.625 12.5C9.58947 12.5 8.75 11.6605 8.75 10.625C8.75 9.58947 9.58947 8.75 10.625 8.75C11.6605 8.75 12.5 9.58947 12.5 10.625Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
+export const BackIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M6.52087 10.8333L11.1875 15.5L10 16.6667L3.33337 9.99999L10 3.33333L11.1875 4.49999L6.52087 9.16666H16.6667V10.8333H6.52087Z"
+                fill="currentColor"
+            />
+        </svg>
+    )
+}
+
+export const FontIcon = () => {
+    return (
+        <svg height="20px" viewBox="0 -960 960 960" width="20px" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M257-240h83.34L384-363h193l43.31 123H703L523-720h-86L257-240Zm151-192 70-199h3l70 199H408ZM168-96q-29.7 0-50.85-21.15Q96-138.3 96-168v-624q0-29.7 21.15-50.85Q138.3-864 168-864h624q29.7 0 50.85 21.15Q864-821.7 864-792v624q0 29.7-21.15 50.85Q821.7-96 792-96H168Zm0-72h624v-624H168v624Zm0-624v624-624Z"
+                fill="currentColor"
+            />
+        </svg>
+    )
+}
+
+export const FontSizeIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M5.83329 16.6667V5.83334H1.66663V3.33334H12.5V5.83334H8.33329V16.6667H5.83329ZM13.3333 16.6667V10H10.8333V7.50001H18.3333V10H15.8333V16.6667H13.3333Z"
+                fill="currentColor"
+            />
+        </svg>
+    )
+}
+
+export const FontColorIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M1.66663 20V16.6667H18.3333V20H1.66663ZM4.58329 14.1667L8.95829 2.5H11.0416L15.4166 14.1667H13.4166L12.375 11.1667H7.66663L6.58329 14.1667H4.58329ZM8.24996 9.5H11.75L10.0416 4.66667H9.95829L8.24996 9.5Z"
+                fill="currentColor"
+            />
+        </svg>
+    )
+}
+
+export const FontBGColorIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M5.14579 1.16667L6.33329 0L13.4791 7.14583C13.7986 7.46528 13.9583 7.86111 13.9583 8.33333C13.9583 8.80556 13.7986 9.20139 13.4791 9.52083L9.52079 13.4792C9.20135 13.7986 8.80552 13.9583 8.33329 13.9583C7.86107 13.9583 7.46524 13.7986 7.14579 13.4792L3.18746 9.52083C2.86801 9.20139 2.70829 8.80556 2.70829 8.33333C2.70829 7.86111 2.86801 7.46528 3.18746 7.14583L7.14579 3.16667L5.14579 1.16667ZM8.33329 4.35417L4.35413 8.33333H12.3125L8.33329 4.35417ZM15.8333 14.1667C15.375 14.1667 14.9826 14.0035 14.6562 13.6771C14.3298 13.3507 14.1666 12.9583 14.1666 12.5C14.1666 12.2083 14.2534 11.8958 14.427 11.5625C14.6007 11.2292 14.7916 10.9167 15 10.625C15.125 10.4583 15.2569 10.2847 15.3958 10.1042C15.5347 9.92361 15.6805 9.75 15.8333 9.58333C15.9861 9.75 16.1319 9.92361 16.2708 10.1042C16.4097 10.2847 16.5416 10.4583 16.6666 10.625C16.875 10.9167 17.0659 11.2292 17.2395 11.5625C17.4132 11.8958 17.5 12.2083 17.5 12.5C17.5 12.9583 17.3368 13.3507 17.0104 13.6771C16.684 14.0035 16.2916 14.1667 15.8333 14.1667ZM1.66663 20V16.6667H18.3333V20H1.66663Z"
+                fill="currentColor"
+            />
+        </svg>
+    )
+}
+
+export const ArrowIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M10 12.8333L5 7.83332L6.16667 6.66666L10 10.5L13.8333 6.66666L15 7.83332L10 12.8333Z"
+                fill="currentColor"
+            />
+        </svg>
+    )
+}
+
+export const AlignLeftIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M14.1667 8.33333H2.5M17.5 5H2.5M17.5 11.6667H2.5M14.1667 15H2.5"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
+export const AlignRightIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M17.5 8.33333H5.83333M17.5 5H2.5M17.5 11.6667H2.5M17.5 15H5.83333"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
+export const AlignCenterIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M15 8.33333H5M17.5 5H2.5M17.5 11.6667H2.5M15 15H5"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
+export const AlignJustifyIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M17.5 8.33333H2.5M17.5 5H2.5M17.5 11.6667H2.5M17.5 15H2.5"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
+export const FullScreenIcon = () => {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M2.85714 12.8571H0V20H7.14286V17.1429H2.85714V12.8571ZM0 7.14286H2.85714V2.85714H7.14286V0H0V7.14286ZM17.1429 17.1429H12.8571V20H20V12.8571H17.1429V17.1429ZM12.8571 0V2.85714H17.1429V7.14286H20V0H12.8571Z"
+                fill="currentColor"
+            />
+        </svg>
+    )
+}
+

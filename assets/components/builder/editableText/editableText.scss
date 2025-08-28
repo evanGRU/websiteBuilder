@@ -1,0 +1,24 @@
+.editable {
+    width: max-content;
+    user-select: none;
+    &:hover {
+        cursor: pointer;
+        outline: 1px solid #75baed;
+    }
+}
+
+.edit-input {
+    background-color: transparent;
+    border: none;
+    outline: 1px dashed var(--main-blue);
+    user-select: all;
+    width: fit-content;
+}
+
+.edit-active {
+    width: max-content;
+    outline: 1px dashed var(--main-blue);
+    &:hover {
+        cursor: pointer !important;
+    }
+}

@@ -17,11 +17,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['project:list'])]
+    #[Groups(['project:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['project:list'])]
+    #[Groups(['project:read'])]
     private ?string $email = null;
 
     /**
@@ -43,10 +43,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $Name = null;
 
     /**
-     * @var Collection<int, Projects>
+     * @var Collection<int, Project>
      */
-    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'createdBy')]
+    #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'createdBy')]
     private Collection $projects;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isVerified = false;
 
     public function __construct()
     {
@@ -151,14 +154,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Projects>
+     * @return Collection<int, Project>
      */
     public function getProjects(): Collection
     {
         return $this->projects;
     }
 
-    public function addProject(Projects $project): static
+    public function addProject(Project $project): static
     {
         if (!$this->projects->contains($project)) {
             $this->projects->add($project);
@@ -168,7 +171,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeProject(Projects $project): static
+    public function removeProject(Project $project): static
     {
         if ($this->projects->removeElement($project)) {
             // set the owning side to null (unless already changed)
@@ -183,9 +186,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    #[Groups(['project:list'])]
+    #[Groups(['project:read'])]
     public function getFullName(): string
     {
         return $this->getFirstname() . ' ' . $this->getName();
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+        return $this;
     }
 }

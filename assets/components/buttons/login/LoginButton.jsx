@@ -1,6 +1,6 @@
 import './loginbutton.scss';
 import React from "react";
-import {useAuth} from "../../../services/auth/AuthContext";
+import {useAuth} from "../../../services/contexts/AuthContext";
 
 
 export default function LoginButton() {

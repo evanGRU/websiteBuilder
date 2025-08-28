@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Projects;
+use App\Entity\CssProperty;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Projects>
+ * @extends ServiceEntityRepository<CssProperty>
  */
-class ProjectsRepository extends ServiceEntityRepository
+class CssPropertyRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Projects::class);
+        parent::__construct($registry, CssProperty::class);
     }
 
 //    /**
-//     * @return Projects[] Returns an array of Projects objects
+//     * @return CssProperty[] Returns an array of CssProperty objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
+//        return $this->createQueryBuilder('c')
+//            ->andWhere('c.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
+//            ->orderBy('c.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Projects
+//    public function findOneBySomeField($value): ?CssProperty
 //    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
+//        return $this->createQueryBuilder('c')
+//            ->andWhere('c.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()
