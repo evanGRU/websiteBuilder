@@ -6,11 +6,13 @@ import AuthPage from "./pages/auth/AuthPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import BuilderPage from "./pages/builder/BuilderPage";
+import VerifyPage from "./pages/auth/VerifyPage";
 
 function Router() {
     return (
         <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/verify" element={<VerifyPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<DashboardPage />} />

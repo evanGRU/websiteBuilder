@@ -7,7 +7,7 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
     const navigate = useNavigate();
     const location = useLocation();
-    const isAuthPage = location.pathname === "/auth";
+    const isAuthPage = location.pathname === "/auth" || location.pathname === "/verify";
     const [token, setToken] = useState(() => localStorage.getItem("token"));
     const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")));
 

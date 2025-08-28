@@ -5,6 +5,7 @@ import {useAuth} from "../../services/contexts/AuthContext";
 import {AppleLogo, GoogleLogo, HiddenIcon, VisibleIcon} from "../../services/svg";
 import {authMethod} from "../../services/params";
 import {toast} from "react-toastify";
+import {validateForm} from "../../services/functions/globalFunctions";
 
 function AuthForm() {
     const [currentAuthMethod, setCurrentAuthMethod] = useState(authMethod.login);
@@ -12,31 +13,66 @@ function AuthForm() {
 
     const [showPassword, setShowPassword] = useState({});
     const [formData, setFormData] = useState({});
+    const [errors, setErrors] = useState({})
 
     const { login } = useAuth();
 
-    async function handleSubmit(event) {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setIsAuthLoading(true);
 
         try {
             if (currentAuthMethod === authMethod.login) {
-                const response = await axios.post("/api/login", (formData));
+                const response = await axios.post("/api/login", formData);
                 toast.success("Vous êtes connecté.");
                 login(response.data.token);
             } else {
-                const response = await axios.post("/api/register", (formData));
-                toast.success("Vous êtes désormais inscrit. Connectez-vous pour accéder à votre compte.");
+                const { isValid, errors } = validateForm(formData);
+                setErrors(errors);
+
+                if (!isValid) return;
+
+                const response = await axios.post("/api/register", formData);
+                toast.success("Inscription terminée, vérifiez vos emails pour confirmez votre adresse.");
                 setCurrentAuthMethod(authMethod.login);
             }
         } catch (error) {
-            toast.error("Une erreur s'est produite, veuillez réessayer.");
+            const code = error.response?.data?.code;
+
+            if (currentAuthMethod === authMethod.login) {
+                if (code === 401) {
+                    toast.error("Identifiant ou mot de passe incorrect.");
+                    setFormData(prev => ({ ...prev, password: "" }));
+                } else {
+                    toast.error("Une erreur s'est produite, veuillez réessayer.");
+                    initFormData();
+                }
+            } else {
+                if (code === "emailExist") {
+                    toast.error("Une erreur s'est produite, veuillez utiliser une autre adresse email.");
+                    setFormData(prev => ({
+                        ...prev,
+                        email: "",
+                        password: "",
+                        confirmedPassword: ""
+                    }));
+                } else {
+                    toast.error("Une erreur s'est produite, veuillez réessayer.");
+                    initFormData();
+                }
+            }
+        } finally {
             setIsAuthLoading(false);
         }
     }
 
+
     const handleChangeForm = (e) => {
         const keyName = e.currentTarget.name;
+        setErrors(prev => ({
+            ...prev,
+            [keyName]: ""
+        }))
         const updatedFormData = {
             ...formData,
             [keyName]: e.currentTarget.value
@@ -44,7 +80,7 @@ function AuthForm() {
         setFormData(updatedFormData);
     }
 
-    useEffect(() => {
+    const initFormData = () => {
         if (currentAuthMethod === authMethod.login) {
             setFormData({
                 email: "",
@@ -64,6 +100,10 @@ function AuthForm() {
             password: false,
             confirmedPassword: false
         });
+    }
+
+    useEffect(() => {
+        initFormData();
     }, [currentAuthMethod]);
 
     return (
@@ -145,11 +185,11 @@ function AuthForm() {
                         required
                     />
                     <label htmlFor="email" className="auth-label">E-mail :</label>
+                    <p className="error-input-warning">{errors.email ?? ""}</p>
                 </div>
 
                 {/* Password input */}
                 <div className="auth-form-input-container">
-
                     <div className="password-input-container">
                         <input
                             type={showPassword.password ? "text" : "password"}
@@ -200,6 +240,7 @@ function AuthForm() {
                                 {showPassword.confirmedPassword ? <VisibleIcon/> : <HiddenIcon/>}
                             </button>
                         </div>
+                        <p className="error-input-warning">{errors.confirmedPassword ?? ""}</p>
                     </div>
                 }
 

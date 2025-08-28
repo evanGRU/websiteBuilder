@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
+use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,29 +13,38 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 final class UserController extends AbstractController
 {
+    private EmailVerifier $emailVerifier;
+    private EntityManagerInterface $em;
+
+    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $em)
+    {
+        $this->emailVerifier = $emailVerifier;
+        $this->em = $em;
+    }
+
     #[Route('/api/register', name: 'api_register', methods: ['POST'])]
     public function register(
         Request $request,
-        EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
     ): Response
     {
         $user = json_decode($request->getContent(), true);
 
         if (!$user) {
-            return $this->json(['error' => 'Invalid JSON'], 400);
+            return $this->json(['code' => 'invalidFileType'], 400);
         }
 
         if (empty($user['firstname']) || empty($user['name']) || empty($user['email']) || empty($user['password'])) {
-            return $this->json(['error' => 'Firstname, name, email and password are required'], 400);
+            return $this->json(['code' => 'dataMissing'], 400);
         }
 
-        $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $user['email']]);
+        $existingUser = $this->em->getRepository(User::class)->findOneBy(['email' => $user['email']]);
         if ($existingUser) {
-            return $this->json(['error' => 'Email already exists'], 400);
+            return $this->json(['code' => 'emailExist'], 400);
         }
 
         $newUser = new User();
@@ -44,11 +55,36 @@ final class UserController extends AbstractController
         $newUser->setPassword(
             $passwordHasher->hashPassword($newUser, $user['password'])
         );
+        $newUser->setIsVerified(false);
 
-        $entityManager->persist($newUser);
-        $entityManager->flush();
+        $this->em->persist($newUser);
+        $this->em->flush();
 
-        return $this->json(['message' => 'User registered successfully'], 201);
+        $this->emailVerifier->sendEmailConfirmation('app_verify_email', $newUser);
+
+        return $this->json(['code' => 'registerSuccess'], 201);
+    }
+
+    #[Route('/api/verify', name: 'app_verify_email')]
+    public function verifyUserEmail(Request $request, UserRepository $userRepository): JsonResponse
+    {
+        $id = $request->get('id');
+        $user = $userRepository->find($id);
+
+        if (!$user) {
+            return new JsonResponse(['error' => 'userNotFound'], 404);
+        }
+
+        try {
+            $this->emailVerifier->handleEmailConfirmation($request, $user);
+        } catch (VerifyEmailExceptionInterface $e) {
+            return new JsonResponse(['error' => $e->getReason()], 400);
+        }
+
+        $user->setIsVerified(true);
+        $this->em->flush();
+
+        return new JsonResponse(['code' => 'verifiedSuccess'], 201);
     }
 
     #[Route('/api/me', name: 'api_me', methods: ['GET'])]
